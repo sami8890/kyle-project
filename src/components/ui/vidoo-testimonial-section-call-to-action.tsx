@@ -74,7 +74,7 @@ const CTAVideoSection = () => {
                 },
                 {
                   icon: Clock,
-                  title: "35-Min Session",
+                  title: "45-Min Session",
                   description: "Focused, actionable strategy discussion",
                 },
                 {
@@ -126,9 +126,10 @@ const CTAVideoSection = () => {
                 <div className="aspect-video bg-gray-800 rounded-lg mb-6 overflow-hidden relative">
                   <video
                     ref={videoRef}
-                    src="/kyle.mp4"
+                    src="/kylea.mp4"
                     className="object-cover w-full h-full"
                     onClick={togglePlay}
+                    preload="auto"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
                   <button

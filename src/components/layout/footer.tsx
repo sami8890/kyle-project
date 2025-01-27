@@ -1,19 +1,18 @@
 import React from "react";
-import Link from "next/link";
 import { Twitter, Linkedin, Instagram, Mail, ArrowUpRight } from "lucide-react";
 
 const Footer = () => {
   const footerLinks = {
     services: [
-      { label: "SEO Optimization", href: "/services/seo" },
-      { label: "Content Strategy", href: "/services/content" },
-      { label: "Analytics", href: "/services/analytics" },
+      { label: "SEO Optimization", href: "#" },
+      { label: "Content Strategy", href: "#" },
+      { label: "Analytics", href: "#" },
     ],
-   
+
     support: [
-      { label: "Contact", href: "/contact" },
-      { label: "Privacy Policy", href: "/#" },
-      { label: "Terms of Service", href: "/#" },
+      { label: "Contact", href: "#" },
+      { label: "Privacy Policy", href: "#" },
+      { label: "Terms of Service", href: "#" },
     ],
   };
 
@@ -27,20 +26,17 @@ const Footer = () => {
         <div className="py-16 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
           {/* Brand column */}
           <div className="space-y-6">
-            <Link
-              href="/"
-              className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-cyan-200"
-            >
+            <span className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-cyan-200">
               The Contntr Growth Collective
-            </Link>
+            </span>
             <p className="text-gray-400 text-sm">
               Empowering businesses with data-driven strategies for sustainable
               digital growth.
             </p>
             <div className="flex space-x-4">
-              <SocialLink href="https://twitter.com" icon={Twitter} />
-              <SocialLink href="https://linkedin.com" icon={Linkedin} />
-              <SocialLink href="https://instagram.com" icon={Instagram} />
+              <SocialLink href="#" icon={Twitter} />
+              <SocialLink href="#" icon={Linkedin} />
+              <SocialLink href="#" icon={Instagram} />
             </div>
           </div>
 
@@ -54,7 +50,6 @@ const Footer = () => {
             </ul>
           </div>
 
-
           <div>
             <h3 className="text-white font-semibold mb-4">Support</h3>
             <ul className="space-y-3">
@@ -64,8 +59,6 @@ const Footer = () => {
             </ul>
           </div>
         </div>
-
-      
 
         {/* Bottom bar */}
         <div
@@ -78,7 +71,6 @@ const Footer = () => {
           </div>
           <div className="flex items-center gap-2">
             <Mail className="w-4 h-4" />
-           
           </div>
         </div>
       </div>
@@ -94,23 +86,19 @@ const SocialLink = ({
   href: string;
   icon: React.ComponentType<{ className?: string }>;
 }) => (
-  <a
-    href={href}
-    target="_blank"
-    rel="noopener noreferrer"
+  <span
     className="w-10 h-10 rounded-full bg-gray-900 hover:bg-gray-800 border 
              border-gray-800 hover:border-cyan-800 flex items-center justify-center 
              text-gray-400 hover:text-cyan-400 transition-colors duration-200"
   >
     <Icon className="w-5 h-5" />
-  </a>
+  </span>
 );
 
 // Footer link component
 const FooterLink = ({ label, href }: { label: string; href: string }) => (
   <li>
-    <Link
-      href={href}
+    <span
       className="text-gray-400 hover:text-cyan-300 transition-colors duration-200 
                 text-sm flex items-center group"
     >
@@ -120,7 +108,7 @@ const FooterLink = ({ label, href }: { label: string; href: string }) => (
                             group-hover:translate-x-1 group-hover:-translate-y-1 
                             transition-all duration-200 ml-1"
       />
-    </Link>
+    </span>
   </li>
 );
 

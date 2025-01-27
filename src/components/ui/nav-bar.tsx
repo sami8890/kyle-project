@@ -118,7 +118,7 @@ const Navbar = () => {
               className="text-lg sm:text-xl md:text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-cyan-200 truncate max-w-[160px] sm:max-w-[200px] md:max-w-none"
               aria-label="Contntr Growth Collective"
             >
-              Contntr Growth Collective
+             The  Contntr Growth Collective
             </Link>
           </div>
 
