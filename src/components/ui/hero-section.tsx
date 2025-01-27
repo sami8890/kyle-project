@@ -81,12 +81,6 @@ const HeroSection = () => {
                   "After understanding your goals, we'll craft a tailored package designed to deliver results without wasting resources.",
               },
               {
-                number: "3",
-                title: "Approve Topics in Minutes",
-                description:
-                  "We handle the heavy lifting by providing you with expertly researched topics. All you have to do is review and approve.",
-              },
-              {
                 number: "4",
                 title: "We Create. You Lead.",
                 description:

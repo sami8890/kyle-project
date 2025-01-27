@@ -126,7 +126,7 @@ const CTAVideoSection = () => {
                 <div className="aspect-video bg-gray-800 rounded-lg mb-6 overflow-hidden relative">
                   <video
                     ref={videoRef}
-                    src="/thenew.mp4"
+                    src="/kyle.mp4"
                     className="object-cover w-full h-full"
                     onClick={togglePlay}
                   />
