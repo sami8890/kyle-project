@@ -34,9 +34,7 @@ const Footer = () => {
               digital growth.
             </p>
             <div className="flex space-x-4">
-              <SocialLink href="#" icon={Twitter} />
-              <SocialLink href="#" icon={Linkedin} />
-              <SocialLink href="#" icon={Instagram} />
+              <SocialLink href="/https://www.linkedin.com/in/lknianga/" icon={Linkedin} />
             </div>
           </div>
 
