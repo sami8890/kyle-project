@@ -81,13 +81,13 @@ const HeroSection = () => {
                   "After understanding your goals, we'll craft a tailored package designed to deliver results without wasting resources.",
               },
               {
-                number: "4",
+                number: "3",
                 title: "We Create. You Lead.",
                 description:
                   "While you focus on driving your business, we craft high-impact, SEO-optimized content that grows your brand effortlessly.",
               },
               {
-                number: "5",
+                number: "4",
                 title: "Your Vision Realized in Just 8 Hours",
                 description:
                   "With less than 8 hours of your involvement, we'll set everything in motion. In under 2 weeks, your tailored content strategy will be live, working to elevate your brand.",
