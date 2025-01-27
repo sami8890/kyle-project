@@ -1,38 +1,113 @@
 "use client";
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import { Linkedin, Calendar } from "lucide-react";
 import Link from "next/link";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 const HeroSection = () => {
   const [isHovered, setIsHovered] = React.useState<number | null>(null);
 
+  // Refs for animation targets
+  const headlineRef = useRef<HTMLHeadingElement>(null);
+  const subheadlineRef = useRef<HTMLParagraphElement>(null);
+  const ctaRef = useRef<HTMLDivElement>(null);
+  const stepsRef = useRef<HTMLDivElement>(null);
+  const stepsItemsRef = useRef<HTMLDivElement[]>([]);
+
+  useEffect(() => {
+    // Register ScrollTrigger plugin
+    gsap.registerPlugin(ScrollTrigger);
+
+    // Initial animation timeline
+    const tl = gsap.timeline({ defaults: { ease: "power3.out" } });
+
+    // Headline animation with text split
+    const headlineText = headlineRef.current?.textContent?.split(" ") || [];
+    gsap.set(headlineRef.current, { overflow: "hidden" });
+
+    tl.from(headlineText, {
+      opacity: 0,
+      y: 100,
+      duration: 1,
+      stagger: 0.1,
+      ease: "back.out(1.7)"
+    })
+      .from(subheadlineRef.current, {
+        opacity: 0,
+        y: 20,
+        duration: 0.8
+      }, "-=0.4")
+      .from(ctaRef.current?.children ? Array.from(ctaRef.current.children) : [], {
+        opacity: 0,
+        x: -30,
+        duration: 0.6,
+        stagger: 0.2
+      }, "-=0.4");
+
+    // Animate steps with scroll trigger
+    stepsItemsRef.current.forEach((step, index) => {
+      gsap.from(step, {
+        opacity: 0,
+        x: 50,
+        duration: 0.8,
+        scrollTrigger: {
+          trigger: step,
+          start: "top bottom-=100",
+          end: "bottom center",
+          toggleActions: "play none none reverse"
+        },
+        delay: index * 0.2
+      });
+    });
+
+    // Cleanup
+    return () => {
+      ScrollTrigger.getAll().forEach(trigger => trigger.kill());
+    };
+  }, []);
+
+  // Hover animation for steps
+  const handleStepHover = (index: number) => {
+    setIsHovered(index);
+    gsap.to(stepsItemsRef.current[index], {
+      scale: 1.02,
+      duration: 0.3,
+      ease: "power2.out"
+    });
+  };
+
+  const handleStepLeave = (index: number) => {
+    setIsHovered(null);
+    gsap.to(stepsItemsRef.current[index], {
+      scale: 1,
+      duration: 0.3,
+      ease: "power2.out"
+    });
+  };
+
   return (
     <div className="relative bg-black min-h-screen flex items-center pt-20">
-      {/* Subtle gradient background */}
       <div className="absolute inset-0">
         <div className="absolute inset-0 bg-gradient-to-b from-black via-black to-zinc-900/50" />
       </div>
 
       <div className="relative w-full max-w-7xl mx-auto px-4 py-24 sm:px-6 lg:px-8">
         <div className="flex flex-col lg:flex-row gap-16 items-start">
-          {/* Left column - Main content */}
           <div className="flex-1 space-y-12">
-            {/* Headline */}
-            <h1 className="text-4xl lg:text-6xl font-bold text-white leading-tight">
+            <h1 ref={headlineRef} className="text-4xl lg:text-6xl font-bold text-white leading-tight">
               WE ARE THE BEST
               <br />
               <span className="text-cyan-400">IN THE BLOG GAME</span>
             </h1>
 
-            {/* Subheadline */}
-            <p className="text-lg text-gray-400 max-w-xl">
+            <p ref={subheadlineRef} className="text-lg text-gray-400 max-w-xl">
               As a C-level executive, your focus is on steering your business
               toward growth, not getting bogged down in content creation
               details.
             </p>
 
-            {/* CTA Section */}
-            <div className="flex flex-col sm:flex-row gap-4 items-center">
+            <div ref={ctaRef} className="flex flex-col sm:flex-row gap-4 items-center">
               <button
                 className="w-full sm:w-auto px-8 py-4 bg-cyan-500 hover:bg-cyan-400 
                          text-black font-medium rounded-lg transition-colors duration-200
@@ -48,7 +123,7 @@ const HeroSection = () => {
                 Book a Meeting
                 <Calendar className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
               </button>
-            <Link
+              <Link
                 href="https://www.linkedin.com/in/lknianga/"
                 target="_blank"
                 rel="noopener noreferrer"
@@ -62,8 +137,7 @@ const HeroSection = () => {
             </div>
           </div>
 
-          {/* Right column - Service Process Steps */}
-          <div className="flex-1 space-y-8">
+          <div ref={stepsRef} className="flex-1 space-y-8">
             {[
               {
                 number: "1",
@@ -92,10 +166,13 @@ const HeroSection = () => {
             ].map((step, index) => (
               <div
                 key={index}
+                ref={el => {
+                  stepsItemsRef.current[index] = el!;
+                }}
                 className={`flex gap-4 p-4 rounded-lg transition-all duration-200
                            ${isHovered === index ? "bg-white/5" : ""}`}
-                onMouseEnter={() => setIsHovered(index)}
-                onMouseLeave={() => setIsHovered(null)}
+                onMouseEnter={() => handleStepHover(index)}
+                onMouseLeave={() => handleStepLeave(index)}
               >
                 <div className="flex-shrink-0 w-8 h-8 bg-cyan-500 text-black font-bold rounded-full flex items-center justify-center">
                   {step.number}

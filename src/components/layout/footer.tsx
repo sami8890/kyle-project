@@ -80,7 +80,6 @@ const Footer = () => {
 
 // Social media link component
 const SocialLink = ({
-  href,
   icon: Icon,
 }: {
   href: string;
@@ -96,7 +95,7 @@ const SocialLink = ({
 );
 
 // Footer link component
-const FooterLink = ({ label, href }: { label: string; href: string }) => (
+const FooterLink = ({ label }: { label: string; href: string }) => (
   <li>
     <span
       className="text-gray-400 hover:text-cyan-300 transition-colors duration-200 
