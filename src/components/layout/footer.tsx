@@ -9,15 +9,11 @@ const Footer = () => {
       { label: "Content Strategy", href: "/services/content" },
       { label: "Analytics", href: "/services/analytics" },
     ],
-    company: [
-      { label: "About Us", href: "/about" },
-      { label: "Blog", href: "/blog" },
-      { label: "Careers", href: "/careers" },
-    ],
+   
     support: [
       { label: "Contact", href: "/contact" },
-      { label: "Privacy Policy", href: "/privacy" },
-      { label: "Terms of Service", href: "/terms" },
+      { label: "Privacy Policy", href: "/#" },
+      { label: "Terms of Service", href: "/#" },
     ],
   };
 
@@ -58,14 +54,6 @@ const Footer = () => {
             </ul>
           </div>
 
-          <div>
-            <h3 className="text-white font-semibold mb-4">Company</h3>
-            <ul className="space-y-3">
-              {footerLinks.company.map((link) => (
-                <FooterLink key={link.label} {...link} />
-              ))}
-            </ul>
-          </div>
 
           <div>
             <h3 className="text-white font-semibold mb-4">Support</h3>

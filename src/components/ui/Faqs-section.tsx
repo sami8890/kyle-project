@@ -81,9 +81,9 @@ const FAQSection = () => {
             Frequently Asked Questions
           </div>
           <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
-            Everything you need to know about our{" "}
+            Everything you need to know  
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-cyan-200">
-              SEO platform
+          about    Us
             </span>
           </h2>
           <p className="text-gray-400 max-w-2xl mx-auto mb-8">
