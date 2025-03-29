@@ -1,5 +1,5 @@
 import React from "react";
-import { Twitter, Linkedin, Instagram, Mail, ArrowUpRight } from "lucide-react";
+import {  Linkedin, Mail, ArrowUpRight } from "lucide-react";
 
 const Footer = () => {
   const footerLinks = {

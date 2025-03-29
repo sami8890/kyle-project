@@ -1,17 +1,30 @@
-import HeroSection from "@/components/ui/hero-section"
-import ImpactSection from "@/components/stats"
-import ProcessSection from "@/components/ui/process-section"
-import FAQSection from "@/components/ui/Faqs-section"
-import CTAVideoSection from "@/components/ui/vidoo-testimonial-section-call-to-action"
+"use client"
+import Navbar from "../components/layout/nav-bar"
+import HeroSection from "../components/main/hero-section"
+import ProcessSection from "../components/main/process-section"
+import TrustSection from "../components/main/trust-section"
+import FrameworkSection from "../components/main/framework-section"
+import ContentBacklinksSection from "../components/main/content-backlinks-section"
+import TechnicalSEOSection from "../components/main/technical-seo-section"
+import PricingSection from "../components/main/pricing-section"
+import DifferenceSection from "../components/main/difference-section"
+import ResultsSection from "../components/main/results-section"
+import CTASection from "../components/main/cta-section"
 
 export default function Home() {
   return (
-    <main className="mx-auto ">
+    <main className="bg-black text-white">
+      <Navbar />
       <HeroSection />
-      <ProcessSection/>
-      <ImpactSection/>
-      <CTAVideoSection/>
-      <FAQSection/>
+      <TrustSection />
+      <FrameworkSection />
+      <ProcessSection />
+      <ContentBacklinksSection />
+      <TechnicalSEOSection />
+      <PricingSection />
+      <DifferenceSection />
+      <ResultsSection />
+      <CTASection />
     </main>
   )
 }
