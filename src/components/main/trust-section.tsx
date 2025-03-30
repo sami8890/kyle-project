@@ -1,28 +1,5 @@
 import { Shield } from "lucide-react"
-import Image from "next/image"
 
-const testimonials = [
-    {
-        quote:
-            "Their SEO strategy transformed our online presence. We've seen a 300% increase in qualified leads within just 4 months.",
-        author: "Sarah Johnson",
-        position: "CEO, DevStack Solutions",
-        image: "/placeholder.svg?height=60&width=60",
-    },
-    {
-        quote:
-            "Unlike other agencies, they actually understand software development and create content that resonates with our target clients.",
-        author: "Michael Chen",
-        position: "Marketing Director, CodeCraft",
-        image: "/placeholder.svg?height=60&width=60",
-    },
-    {
-        quote: "The ROI has been incredible. For every $1 we spend, we're seeing $7 in new business revenue.",
-        author: "David Rodriguez",
-        position: "Founder, AppLaunch",
-        image: "/placeholder.svg?height=60&width=60",
-    },
-]
 
 const stats = [
     { value: "1200%", label: "Increase in Search Impressions" },
@@ -76,7 +53,7 @@ export default function TrustSection() {
                     </div>
                 </div>
 
-                {/* Testimonials */}
+                {/* Testimonials
                 <div className="grid md:grid-cols-3 gap-8">
                     {testimonials.map((testimonial, index) => (
                         <div key={index} className="bg-[#111] rounded-xl p-8 border border-gray-800 relative">
@@ -99,7 +76,7 @@ export default function TrustSection() {
                             </div>
                         </div>
                     ))}
-                </div>
+                </div> */}
             </div>
         </section>
     )
