@@ -2,19 +2,56 @@
 
 import type React from "react"
 
+// Extend the Window interface to include Calendly
+declare global {
+    interface Window {
+        Calendly?: {
+            initPopupWidget: (options: { url: string }) => void;
+        };
+    }
+}
+
+import { useEffect } from "react"
 import { Calendar, Mail, Phone, ArrowRight } from "lucide-react"
 
 export default function CTASection() {
+    // Initialize Calendly
+    useEffect(() => {
+        // Add Calendly script
+        const script = document.createElement("script")
+        script.src = "https://assets.calendly.com/assets/external/widget.js"
+        script.async = true
+        document.head.appendChild(script)
+
+        return () => {
+            // Clean up script if component unmounts
+            if (document.head.contains(script)) {
+                document.head.removeChild(script)
+            }
+        }
+    }, [])
+
     const handleCTAClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
         e.preventDefault()
-        const targetId = href.substring(1)
-        const targetElement = document.getElementById(targetId)
 
-        if (targetElement) {
-            window.scrollTo({
-                top: targetElement.offsetTop - 100,
-                behavior: "smooth",
-            })
+        // If it's the calendar link, open Calendly
+        if (href === "#calendar") {
+            if (window.Calendly) {
+                window.Calendly.initPopupWidget({
+                    url: "https://calendly.com/contntr/call",
+                })
+            }
+        } else {
+            // Otherwise, scroll to the section
+            const targetId = href.substring(1)
+            const targetElement = document.getElementById(targetId)
+
+            if (targetElement) {
+                window.scrollTo({
+                    top: targetElement.offsetTop - 100,
+                    behavior: "smooth",
+                })
+            }
         }
     }
 
@@ -34,7 +71,7 @@ export default function CTASection() {
                         <div className="grid md:grid-cols-2 gap-8 items-center">
                             <div>
                                 <div className="bg-black/50 p-6 rounded-lg border border-gray-800 mb-6">
-                                    <h3 className="text-xl font-bold text-white mb-4">Wha&apos;t Youll Get:</h3>
+                                    <h3 className="text-xl font-bold text-white mb-4">What You&apos;ll Get:</h3>
                                     <ul className="space-y-3">
                                         {[
                                             "Custom growth strategy tailored to your agency",
@@ -126,7 +163,15 @@ export default function CTASection() {
                     </div>
                 </div>
             </div>
+
+            {/* Add Calendly type definition */}
+            <script
+                dangerouslySetInnerHTML={{
+                    __html: `
+                    window.Calendly = window.Calendly || {};
+                    `,
+                }}
+            />
         </section>
     )
 }
-

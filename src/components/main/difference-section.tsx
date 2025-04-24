@@ -1,9 +1,24 @@
 "use client"
 
+import { useEffect } from "react"
 import { CheckCircle, Code, Users, Zap, X } from "lucide-react"
 import { motion } from "framer-motion"
 
 export default function DifferenceSection() {
+    // Initialize Calendly
+    useEffect(() => {
+        // Add Calendly script if not already added
+        if (!document.querySelector('script[src="https://assets.calendly.com/assets/external/widget.js"]')) {
+            const script = document.createElement("script")
+            script.src = "https://assets.calendly.com/assets/external/widget.js"
+            script.async = true
+            document.head.appendChild(script)
+        }
+
+        return () => {
+            // No cleanup needed as other components might use Calendly
+        }
+    }, [])
 
     // Animation variants
     const containerVariants = {
@@ -24,6 +39,15 @@ export default function DifferenceSection() {
             opacity: 1,
             transition: { duration: 0.5 },
         },
+    }
+
+    // Function to open Calendly
+    const openCalendly = () => {
+        if (window.Calendly) {
+            window.Calendly.initPopupWidget({
+                url: "https://calendly.com/contntr/call",
+            })
+        }
     }
 
     return (
@@ -213,6 +237,7 @@ export default function DifferenceSection() {
                             className="px-8 py-3 bg-[#00B9D6] hover:bg-[#00a5be] text-white font-medium rounded-full transition-all duration-300 shadow-lg hover:shadow-[#00B9D6]/20 hover:-translate-y-1"
                             whileHover={{ scale: 1.05 }}
                             whileTap={{ scale: 0.98 }}
+                            onClick={openCalendly}
                         >
                             Schedule a Strategy Call
                         </motion.button>
@@ -222,4 +247,3 @@ export default function DifferenceSection() {
         </section>
     )
 }
-

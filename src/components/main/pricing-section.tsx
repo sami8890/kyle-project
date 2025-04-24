@@ -1,4 +1,17 @@
+"use client"
+
+import { useEffect } from "react"
 import { Check, X, Shield } from "lucide-react"
+
+// Define the type for window.Cal (assuming you have the right methods from Cal.com)
+declare global {
+    interface Window {
+        Cal?: {
+            init: (config: { origin: string }) => void;
+            showModal: (config: { calLink: string, layout: string }) => void;
+        }
+    }
+}
 
 const pricingTiers = [
     {
@@ -46,12 +59,47 @@ const pricingTiers = [
             { name: "Dedicated Strategist", included: true },
         ],
         recommended: true,
-        buttonText: "Get Started",
+        buttonText: "Book Your Free Growth Blueprint Session Now →",
         buttonClass: "bg-[#00B9D6] text-black hover:bg-[#00B9D6]/90",
     },
 ]
 
 export default function PricingSection() {
+    useEffect(() => {
+        // Initialize Cal.com
+        const script = document.createElement("script")
+        script.src = "https://app.cal.com/embed/embed.js"
+        script.async = true
+        script.onload = () => {
+            if (window.Cal) {
+                window.Cal.init({
+                    origin: "https://cal.com",
+                })
+            }
+        }
+        document.head.appendChild(script)
+
+        return () => {
+            // Clean up script if component unmounts
+            if (document.head.contains(script)) {
+                document.head.removeChild(script)
+            }
+        }
+    }, [])
+
+    // Function to open Cal.com popup when "Get Started" is clicked
+    const openCalendar = () => {
+        if (window.Cal) {
+            window.Cal.showModal({
+                calLink: "contntr/call",
+                layout: "month_view",
+            })
+        } else {
+            // Fallback to direct link if Cal.com is not loaded
+            window.open("https://cal.com/contntr/call", "_blank")
+        }
+    }
+
     return (
         <section id="pricing" className="py-24 bg-black">
             <div className="container mx-auto px-6">
@@ -97,7 +145,7 @@ export default function PricingSection() {
                                             <div>
                                                 <span className="text-gray-300">{feature.name}</span>
                                                 {feature.note && (
-                                                    <span className={`text-xs ml-2 ${tier.recommended ? "text-[#00B9D6]" : "text-gray-500"}`}>
+                                                    <span className={`text-xs ml-2 ${tier.recommended ? "text-[#00B9D6]" : "text-gray-500"}`} >
                                                         ({feature.note})
                                                     </span>
                                                 )}
@@ -106,7 +154,10 @@ export default function PricingSection() {
                                     ))}
                                 </div>
 
-                                <button className={`w-full py-3 px-4 rounded-lg font-medium ${tier.buttonClass}`}>
+                                <button
+                                    className={`w-full py-3 px-4 rounded-lg font-medium ${tier.buttonClass}`}
+                                    onClick={tier.recommended ? openCalendar : undefined}
+                                >
                                     {tier.buttonText}
                                 </button>
                             </div>
@@ -124,13 +175,15 @@ export default function PricingSection() {
                     <div>
                         <h3 className="text-2xl font-bold text-white mb-2">30% Growth Guarantee</h3>
                         <p className="text-xl text-gray-300">
-                            If you don&apos;t see at least 30% growth in organic traffic within 90 days, we&apos;ll continue working at no
-                            additional cost until you do.
+                            If you don&apos;t see at least 30% growth in organic traffic within 90 days, we&apos;ll continue working
+                            at no additional cost until you do.
                         </p>
                     </div>
                 </div>
+
+                {/* Hidden div for inline embed if needed */}
+                <div style={{ width: "100%", height: "0", overflow: "hidden" }} id="my-cal-inline"></div>
             </div>
         </section>
     )
 }
-
