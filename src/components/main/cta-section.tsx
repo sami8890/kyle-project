@@ -1,6 +1,8 @@
 "use client"
 
 import type React from "react"
+import { useEffect } from "react"
+import { Calendar, Mail, Phone, ArrowRight } from "lucide-react"
 
 // Extend the Window interface to include Calendly
 declare global {
@@ -11,9 +13,6 @@ declare global {
     }
 }
 
-import { useEffect } from "react"
-import { Calendar, Mail, Phone, ArrowRight } from "lucide-react"
-
 export default function CTASection() {
     // Initialize Calendly
     useEffect(() => {
@@ -21,6 +20,9 @@ export default function CTASection() {
         const script = document.createElement("script")
         script.src = "https://assets.calendly.com/assets/external/widget.js"
         script.async = true
+        script.onload = () => {
+            console.log("Calendly script loaded successfully")
+        }
         document.head.appendChild(script)
 
         return () => {
@@ -52,6 +54,15 @@ export default function CTASection() {
                     behavior: "smooth",
                 })
             }
+        }
+    }
+
+    const handleCalendlyClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+        e.preventDefault()
+        if (window.Calendly) {
+            window.Calendly.initPopupWidget({
+                url: "https://calendly.com/contntr/call",
+            })
         }
     }
 
@@ -140,6 +151,16 @@ export default function CTASection() {
                                     >
                                         Send Message
                                     </button>
+
+                                    {/* Calendly button to form section */}
+                                    <button
+                                        type="button"
+                                        onClick={handleCalendlyClick}
+                                        className="w-full bg-black text-[#00B9D6] border border-[#00B9D6] px-4 py-3 rounded-lg font-medium hover:bg-[#00B9D6]/10 transition-colors mt-2 flex items-center justify-center gap-2"
+                                    >
+                                        <Calendar className="w-5 h-5" />
+                                        <span>Schedule a Call</span>
+                                    </button>
                                 </form>
 
                                 <div className="mt-6 pt-6 border-t border-gray-800">
@@ -164,7 +185,7 @@ export default function CTASection() {
                 </div>
             </div>
 
-            {/* Add Calendly type definition */}
+            {/* Initialize Calendly object */}
             <script
                 dangerouslySetInnerHTML={{
                     __html: `

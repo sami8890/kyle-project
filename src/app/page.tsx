@@ -10,6 +10,7 @@ import PricingSection from "../components/main/pricing-section"
 import DifferenceSection from "../components/main/difference-section"
 import ResultsSection from "../components/main/results-section"
 import CTASection from "../components/main/cta-section"
+import VideoSection from "@/components/main/video-section"
 
 export default function Home() {
   return (
@@ -18,12 +19,16 @@ export default function Home() {
       <HeroSection />
       <TrustSection />
       <FrameworkSection />
+
       <ProcessSection />
+      <VideoSection/>
       <ContentBacklinksSection />
       <TechnicalSEOSection />
       <PricingSection />
       <DifferenceSection />
+
       <ResultsSection />
+
       <CTASection />
     </main>
   )
