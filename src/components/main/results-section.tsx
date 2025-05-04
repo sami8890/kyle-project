@@ -1,149 +1,193 @@
-import { TrendingUp, Users, DollarSign } from "lucide-react"
+"use client"
 
-const caseStudies = [
-    {
-        client: "Enterprise SaaS Platform",
-        metrics: [
-            { icon: TrendingUp, value: "21M+", label: "Search Impressions" },
-            { icon: Users, value: "600%", label: "Organic Traffic Growth" },
-            { icon: DollarSign, value: "43%", label: "Conversion Rate Increase" },
-        ],
-        description:
-            "Implemented comprehensive technical SEO and content strategy, resulting in a 600% increase in organic traffic and 43% higher conversion rates within 6 months.",
-    },
-    {
-        client: "Custom Software Development Agency",
-        metrics: [
-            { icon: TrendingUp, value: "250%", label: "Keyword Rankings" },
-            { icon: Users, value: "189%", label: "Qualified Lead Growth" },
-            { icon: DollarSign, value: "2X", label: "Sales in 90 Days" },
-        ],
-        description:
-            "Created industry-focused content strategy targeting enterprise clients, doubling sales within 90 days and establishing the client as an industry thought leader.",
-    },
-]
+import { TrendingUp, Users, DollarSign, Award, BarChart, Search } from "lucide-react"
+import Image from "next/image"
 
 export default function ResultsSection() {
     return (
-        <section id="results" className="py-24 bg-black">
-            <div className="container mx-auto px-6">
+        <section id="results" className="py-16 sm:py-24 bg-black">
+            <div className="container mx-auto px-4 sm:px-6">
                 {/* Section Header */}
-                <div className="text-center mb-16">
+                <div className="text-center mb-12 sm:mb-16">
                     <div className="inline-block px-4 py-1 bg-[#00B9D6]/10 border border-[#00B9D6]/20 rounded-full text-[#00B9D6] text-sm font-medium mb-4">
                         Success Stories
                     </div>
-                    <h2 className="text-4xl font-bold text-white mb-4">Results & Case Studies</h2>
+                    <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-white mb-4">
+                        Results –{" "}
+                        <span className="text-[#00B9D6] relative">
+                            Real Growth
+                            <svg
+                                className="absolute -bottom-1 sm:-bottom-2 left-0 w-full"
+                                viewBox="0 0 300 12"
+                                fill="none"
+                                xmlns="http://www.w3.org/2000/svg"
+                            >
+                                <path
+                                    d="M1 5.5C32.3333 2.16667 143.4 -1.3 299 9.5"
+                                    stroke="#00B9D6"
+                                    strokeWidth="2"
+                                    strokeLinecap="round"
+                                />
+                            </svg>
+                        </span>
+                        , Real Impact
+                    </h2>
                     <p className="text-gray-400 max-w-3xl mx-auto">
-                        Real-world examples of how our approach delivers exceptional results for software development agencies
+                        Real-world examples of how our approach delivers exceptional results for our clients
                     </p>
                 </div>
 
                 {/* Case Studies */}
-                <div className="grid md:grid-cols-2 gap-8 mb-16">
-                    {caseStudies.map((study, index) => (
-                        <div
-                            key={index}
-                            className="bg-gradient-to-b from-[#111] to-[#0c0c0c] rounded-xl overflow-hidden border border-gray-800 hover:border-[#00B9D6]/30 transition-all duration-300"
-                        >
-                            <div className="p-8">
+                <div className="space-y-16">
+                    {/* Case Study 1: Luxury Brand */}
+                    <div className="bg-gradient-to-b from-[#111] to-[#0c0c0c] rounded-xl overflow-hidden border border-gray-800 shadow-xl">
+                        <div className="grid md:grid-cols-2 gap-0">
+                            {/* Image Side */}
+                            <div className="relative h-64 sm:h-80 md:h-full min-h-[320px] overflow-hidden">
+                                <div className="absolute  bg-gradient-to-r from-black/50 to-transparent z-10"></div>
+                                <Image
+                                    src="/luxury.jpg"
+                                    alt="Luxury Brand Case Study"
+                                    fill
+                                    className="object-contain"
+                                />
+                                <div className="absolute top-6 left-6 z-20">
+                                    <div className="inline-block px-3 py-1 bg-[#00B9D6]/20 text-[#00B9D6] text-xs font-medium rounded-full backdrop-blur-sm">
+                                        LUXURY BRAND
+                                    </div>
+                                </div>
+                            </div>
+
+                            {/* Content Side */}
+                            <div className="p-6 sm:p-8 md:p-10 flex flex-col justify-center">
                                 <div className="inline-block px-3 py-1 bg-[#00B9D6]/10 text-[#00B9D6] text-xs font-medium rounded-full mb-4">
                                     CASE STUDY
                                 </div>
-                                <h3 className="text-xl font-bold text-white mb-6">{study.client}</h3>
+                                <h3 className="text-2xl sm:text-3xl font-bold text-white mb-4">
+                                    21 Million Impressions – Luxury Brand
+                                </h3>
 
                                 <div className="grid grid-cols-3 gap-4 mb-6">
-                                    {study.metrics.map((metric, i) => (
+                                    {[{ icon: Search, value: "21M+", label: "Impressions" }, { icon: Users, value: "600%", label: "Traffic Growth" }, { icon: Award, value: "#1", label: "Authority Position" }].map((metric, i) => (
                                         <div key={i} className="text-center">
-                                            <div className="w-12 h-12 bg-[#00B9D6]/10 rounded-full flex items-center justify-center mx-auto mb-3">
-                                                <metric.icon className="text-[#00B9D6] w-6 h-6" />
+                                            <div className="w-10 h-10 sm:w-12 sm:h-12 bg-[#00B9D6]/10 rounded-full flex items-center justify-center mx-auto mb-3">
+                                                <metric.icon className="text-[#00B9D6] w-5 h-5 sm:w-6 sm:h-6" />
                                             </div>
-                                            <div className="text-2xl font-bold text-white mb-1">{metric.value}</div>
+                                            <div className="text-xl sm:text-2xl font-bold text-white mb-1">{metric.value}</div>
                                             <div className="text-xs text-gray-400">{metric.label}</div>
                                         </div>
                                     ))}
                                 </div>
 
-                                <p className="text-gray-300">{study.description}</p>
-                            </div>
-                        </div>
-                    ))}
-                </div>
-
-                {/* Results Graph */}
-                <div className="bg-[#111] rounded-xl overflow-hidden border border-gray-800 max-w-4xl mx-auto">
-                    <div className="p-6 border-b border-gray-800">
-                        <h3 className="text-xl font-bold text-white">Growth Trajectory</h3>
-                        <p className="text-gray-400">Average performance across our software development clients</p>
-                    </div>
-                    <div className="p-8">
-                        <div className="h-64 relative">
-                            {/* X and Y axis */}
-                            <div className="absolute bottom-0 left-0 w-full h-px bg-gray-700"></div>
-                            <div className="absolute bottom-0 left-0 h-full w-px bg-gray-700"></div>
-
-                            {/* Graph lines */}
-                            <div className="absolute bottom-0 left-0 w-full h-full">
-                                {/* Traffic line */}
-                                <div className="absolute bottom-0 left-0 w-full h-full">
-                                    <svg width="100%" height="100%" viewBox="0 0 100 100" preserveAspectRatio="none">
-                                        <path
-                                            d="M0,100 L10,90 L20,85 L30,75 L40,65 L50,50 L60,35 L70,25 L80,15 L90,10 L100,5"
-                                            fill="none"
-                                            stroke="#00B9D6"
-                                            strokeWidth="2"
-                                        />
-                                        <path
-                                            d="M0,100 L10,90 L20,85 L30,75 L40,65 L50,50 L60,35 L70,25 L80,15 L90,10 L100,5 L100,100 Z"
-                                            fill="url(#gradient)"
-                                            fillOpacity="0.2"
-                                        />
-                                        <defs>
-                                            <linearGradient id="gradient" x1="0%" y1="0%" x2="0%" y2="100%">
-                                                <stop offset="0%" stopColor="#00B9D6" stopOpacity="0.5" />
-                                                <stop offset="100%" stopColor="#00B9D6" stopOpacity="0" />
-                                            </linearGradient>
-                                        </defs>
-                                    </svg>
-                                </div>
-
-                                {/* Conversion line */}
-                                <div className="absolute bottom-0 left-0 w-full h-full">
-                                    <svg width="100%" height="100%" viewBox="0 0 100 100" preserveAspectRatio="none">
-                                        <path
-                                            d="M0,100 L10,95 L20,90 L30,85 L40,80 L50,70 L60,60 L70,50 L80,45 L90,40 L100,30"
-                                            fill="none"
-                                            stroke="#FFA500"
-                                            strokeWidth="2"
-                                            strokeDasharray="4 2"
-                                        />
-                                    </svg>
-                                </div>
-                            </div>
-
-                            {/* Labels */}
-                            <div className="absolute bottom-4 left-0 w-full flex justify-between text-xs text-gray-500">
-                                <span>Month 1</span>
-                                <span>Month 3</span>
-                                <span>Month 6</span>
-                                <span>Month 9</span>
-                                <span>Month 12</span>
-                            </div>
-                        </div>
-
-                        <div className="flex justify-center mt-4 space-x-8">
-                            <div className="flex items-center">
-                                <div className="w-3 h-3 bg-[#00B9D6] rounded-full mr-2"></div>
-                                <span className="text-sm text-gray-300">Organic Traffic</span>
-                            </div>
-                            <div className="flex items-center">
-                                <div className="w-3 h-3 bg-[#FFA500] rounded-full mr-2"></div>
-                                <span className="text-sm text-gray-300">Conversion Rate</span>
+                                <p className="text-gray-300 text-sm sm:text-base">
+                                    A high-end goods company went from being invisible online to generating 21 million organic search
+                                    impressions. Our targeted SEO and content strategy positioned them as a top authority in their niche.
+                                </p>
                             </div>
                         </div>
                     </div>
+
+                    {/* Case Study 2: Food Business */}
+                    <div className="bg-gradient-to-b from-[#111] to-[#0c0c0c] rounded-xl overflow-hidden border border-gray-800 shadow-xl">
+                        <div className="grid md:grid-cols-2 gap-0">
+                            {/* Content Side */}
+                            <div className="p-6 sm:p-8 md:p-10 flex flex-col justify-center order-2 md:order-1">
+                                <div className="inline-block px-3 py-1 bg-[#00B9D6]/10 text-[#00B9D6] text-xs font-medium rounded-full mb-4">
+                                    CASE STUDY
+                                </div>
+                                <h3 className="text-2xl sm:text-3xl font-bold text-white mb-4">
+                                    Doubled Sales in 90 Days – Food Business
+                                </h3>
+
+                                <div className="grid grid-cols-3 gap-4 mb-6">
+                                    {[{ icon: DollarSign, value: "132%", label: "Sales Increase" }, { icon: TrendingUp, value: "90", label: "Days" }, { icon: BarChart, value: "3X", label: "ROI" }].map((metric, i) => (
+                                        <div key={i} className="text-center">
+                                            <div className="w-10 h-10 sm:w-12 sm:h-12 bg-[#00B9D6]/10 rounded-full flex items-center justify-center mx-auto mb-3">
+                                                <metric.icon className="text-[#00B9D6] w-5 h-5 sm:w-6 sm:h-6" />
+                                            </div>
+                                            <div className="text-xl sm:text-2xl font-bold text-white mb-1">{metric.value}</div>
+                                            <div className="text-xs text-gray-400">{metric.label}</div>
+                                        </div>
+                                    ))}
+                                </div>
+
+                                <p className="text-gray-300 text-sm sm:text-base">
+                                    A fast-growing food brand leveraged our SEO-driven content strategy and saw sales double (132%) in
+                                    just 90 days. By becoming a go-to resource in their niche, they built consistent, high-value customer
+                                    flow—proving that the right SEO system fuels real business growth.
+                                </p>
+                            </div>
+
+                            {/* Image Side */}
+                            <div className="relative h-80 md:h-full min-h-[320px] order-1 md:order-2">
+                                <div className="absolute  bg-black/30 z-10"></div>
+                                <Image
+                                    src="/food.jpg"
+                                    alt="Food Business Growth"
+                                    fill
+                                    className="object-contain"
+                                />
+                                <div className="absolute top-6 right-6 z-20">
+                                    <div className="inline-block px-3 py-1 bg-[#00B9D6]/20 text-[#00B9D6] text-xs font-medium rounded-full backdrop-blur-sm">
+                                        FOOD BUSINESS
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* Case Study 3: Software Agency */}
+                    <div className="bg-gradient-to-b from-[#111] to-[#0c0c0c] rounded-xl overflow-hidden border border-gray-800 shadow-xl">
+                        <div className="grid md:grid-cols-2 gap-0">
+                            {/* Image Side */}
+                            <div className="relative h-64 sm:h-80 md:h-full min-h-[320px] overflow-hidden">
+                                <div className="absolute  bg-gradient-to-r from-black/50 to-transparent z-10"></div>
+                                <Image
+                                    src="/agency.jpg"
+                                    alt="Software Agency Case Study"
+                                    fill
+                                    className="object-contain"
+                                />
+                                <div className="absolute top-6 left-6 z-20">
+                                    <div className="inline-block px-3 py-1 bg-[#00B9D6]/20 text-[#00B9D6] text-xs font-medium rounded-full backdrop-blur-sm">
+                                        SOFTWARE AGENCY
+                                    </div>
+                                </div>
+                            </div>
+
+                            {/* Content Side */}
+                            <div className="p-6 sm:p-8 md:p-10 flex flex-col justify-center">
+                                <div className="inline-block px-3 py-1 bg-[#00B9D6]/10 text-[#00B9D6] text-xs font-medium rounded-full mb-4">
+                                    CASE STUDY
+                                </div>
+                                <h3 className="text-2xl sm:text-3xl font-bold text-white mb-4">
+                                    Scaling a Clutch-Recognized Software Agency
+                                </h3>
+
+                                <div className="grid grid-cols-3 gap-4 mb-6">
+                                    {[{ icon: TrendingUp, value: "250%", label: "Keyword Growth" }, { icon: Users, value: "189%", label: "Lead Increase" }, { icon: Award, value: "Top 5%", label: "Clutch Ranking" }].map((metric, i) => (
+                                        <div key={i} className="text-center">
+                                            <div className="w-10 h-10 sm:w-12 sm:h-12 bg-[#00B9D6]/10 rounded-full flex items-center justify-center mx-auto mb-3">
+                                                <metric.icon className="text-[#00B9D6] w-5 h-5 sm:w-6 sm:h-6" />
+                                            </div>
+                                            <div className="text-xl sm:text-2xl font-bold text-white mb-1">{metric.value}</div>
+                                            <div className="text-xs text-gray-400">{metric.label}</div>
+                                        </div>
+                                    ))}
+                                </div>
+
+                                <p className="text-gray-300 text-sm sm:text-base">
+                                    We helped a software development agency achieve Clutch recognition through strategic SEO and content
+                                    marketing. Their keyword rankings grew by 250%, qualified leads increased by 189%, and they secured a
+                                    position in the top 5% of Clutch-ranked agencies in their category.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
                 </div>
+
+             
             </div>
         </section>
     )
 }
-

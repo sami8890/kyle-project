@@ -1,19 +1,27 @@
-"use client";
+"use client"
 
-import { useRef, useEffect } from "react";
-import { Play, ChevronRight, PlayCircle } from "lucide-react";
-import gsap from "gsap";
-import { motion } from "framer-motion";
+import { useRef, useEffect, useState } from "react"
+import { Play, ChevronRight, PlayCircle,} from "lucide-react"
+import gsap from "gsap"
+import { motion } from "framer-motion"
+import Image from "next/image"
 
 const VideoSection = () => {
-  const sectionRef = useRef(null);
-  const headingRef = useRef(null);
-  const textRef = useRef(null);
-  const videoRef = useRef(null);
-  const ctaRef = useRef(null);
+  const sectionRef = useRef(null)
+  const headingRef = useRef(null)
+  const textRef = useRef(null)
+  const videoRef = useRef(null)
+  const ctaRef = useRef(null)
+  const [videoPlaying, setVideoPlaying] = useState(false)
+
+  // YouTube video ID
+  const youtubeVideoId = "W3zno51ROXk"
+
+  // YouTube thumbnail URL (high quality)
+  const thumbnailUrl = `https://img.youtube.com/vi/${youtubeVideoId}/maxresdefault.jpg`
 
   useEffect(() => {
-    const tl = gsap.timeline({ defaults: { ease: "power3.out" } });
+    const tl = gsap.timeline({ defaults: { ease: "power3.out" } })
 
     // Animation sequence
     tl.from(headingRef.current, {
@@ -28,7 +36,7 @@ const VideoSection = () => {
           y: 20,
           duration: 0.6,
         },
-        "-=0.5"
+        "-=0.5",
       )
       .from(
         videoRef.current,
@@ -37,7 +45,7 @@ const VideoSection = () => {
           y: 40,
           duration: 0.8,
         },
-        "-=0.3"
+        "-=0.3",
       )
       .from(
         ctaRef.current,
@@ -46,25 +54,16 @@ const VideoSection = () => {
           y: 20,
           duration: 0.6,
         },
-        "-=0.4"
-      );
-  }, []);
+        "-=0.4",
+      )
+  }, [])
 
   const handleVideoPlayClick = () => {
-    // This would typically trigger your video play functionality
-    // For demo purposes, we'll just log to console
-    console.log("Video play triggered");
-
-    // If you have a video element with a ref, you could start playback:
-    // videoElementRef.current.play();
-  };
+    setVideoPlaying(true)
+  }
 
   return (
-    <div
-      id="video-showcase"
-      ref={sectionRef}
-      className="relative bg-black text-white py-16 md:py-24 overflow-hidden"
-    >
+    <div id="video-showcase" ref={sectionRef} className="relative bg-black text-white py-16 md:py-24 overflow-hidden">
       {/* Background elements - matching hero section */}
       <div
         className="absolute inset-0 z-0"
@@ -103,10 +102,7 @@ const VideoSection = () => {
             Watch How It Works
           </div>
 
-          <h2
-            ref={headingRef}
-            className="text-3xl sm:text-4xl md:text-5xl font-bold mb-6"
-          >
+          <h2 ref={headingRef} className="text-3xl sm:text-4xl md:text-5xl font-bold mb-6">
             Our{" "}
             <span className="text-[#00B9D6] relative">
               SEO Process
@@ -127,21 +123,10 @@ const VideoSection = () => {
             In Action
           </h2>
 
-          <p
-            ref={textRef}
-            className="text-base sm:text-lg text-gray-300 max-w-2xl mx-auto"
-          >
+          <p ref={textRef} className="text-base sm:text-lg text-gray-300 max-w-2xl mx-auto">
             See how our data-driven approach helps software development agencies
-            <span className="text-[#00B9D6] font-semibold">
-              {" "}
-              attract premium clients
-            </span>{" "}
-            and
-            <span className="text-[#00B9D6] font-semibold">
-              {" "}
-              scale predictably
-            </span>{" "}
-            month after month.
+            <span className="text-[#00B9D6] font-semibold"> attract premium clients</span> and
+            <span className="text-[#00B9D6] font-semibold"> scale predictably</span> month after month.
           </p>
         </div>
 
@@ -153,62 +138,102 @@ const VideoSection = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
           >
-            {/* Replace src with your actual video source */}
-            <div className="relative w-full h-full flex items-center justify-center">
-              {/* This is a placeholder for your video - replace with your actual video element */}
-              <div className="absolute inset-0 bg-black/50">
-                {/* Video thumbnail image would go here */}
-                <div
-                  className="h-full w-full bg-[linear-gradient(rgba(0,185,214,0.05)_1px,transparent_1px),linear-gradient(90deg,rgba(0,185,214,0.05)_1px,transparent_1px)]"
-                  style={{ backgroundSize: "20px 20px" }}
-                ></div>
-              </div>
+            {/* YouTube Video Integration */}
+            <div className="relative w-full h-full">
+              {!videoPlaying ? (
+                // Custom thumbnail with play button overlay
+                <div className="relative w-full h-full">
+                  {/* Thumbnail with overlay */}
+                  <div className="absolute inset-0 bg-black/30 z-10"></div>
 
-              {/* Play button overlay */}
-              <button
-                onClick={handleVideoPlayClick}
-                className="w-16 h-16 sm:w-20 sm:h-20 flex items-center justify-center rounded-full bg-[#00B9D6] text-black 
-                hover:bg-white transition-all duration-300 group-hover:scale-110 z-10"
-              >
-                <Play className="ml-1" size={24} fill="currentColor" />
-              </button>
+                  {/* Thumbnail image */}
+                  <div className="relative w-full h-full">
+                    <Image
+                      src={thumbnailUrl || "/placeholder.svg"}
+                      alt="SEO Process Video Thumbnail"
+                      fill
+                      className="object-cover"
+                      priority
+                    />
+
+                    {/* Grid overlay for design */}
+                    <div
+                      className="absolute inset-0 bg-[linear-gradient(rgba(0,185,214,0.05)_1px,transparent_1px),linear-gradient(90deg,rgba(0,185,214,0.05)_1px,transparent_1px)] z-20"
+                      style={{ backgroundSize: "20px 20px" }}
+                    ></div>
+                  </div>
+
+                  {/* Play button */}
+                  <button
+                    onClick={handleVideoPlayClick}
+                    className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-20 h-20 sm:w-24 sm:h-24 flex items-center justify-center rounded-full bg-[#00B9D6] text-black hover:bg-white transition-all duration-300 group-hover:scale-110 z-30 shadow-lg shadow-[#00B9D6]/30"
+                    aria-label="Play video"
+                  >
+                    <div className="absolute inset-0 rounded-full bg-[#00B9D6] animate-ping opacity-30"></div>
+                    <Play className="ml-1" size={28} fill="currentColor" />
+                  </button>
+
+                  {/* YouTube branding */}
+                  <div className="absolute bottom-4 right-4 z-30 flex items-center space-x-2 bg-black/60 px-3 py-1.5 rounded-lg">
+                    <svg viewBox="0 0 24 24" className="w-5 h-5 text-red-600 fill-current">
+                      <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814z" />
+                      <path d="M9.545 15.568V8.432L15.818 12l-6.273 3.568z" fill="#fff" />
+                    </svg>
+                    <span className="text-white text-xs font-medium">YouTube</span>
+                  </div>
+                </div>
+              ) : (
+                // Embedded YouTube iframe when play is clicked
+                <iframe
+                  src={`https://www.youtube.com/embed/${youtubeVideoId}?autoplay=1&rel=0&modestbranding=1`}
+                  title="SEO Process Video"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowFullScreen
+                  className="absolute top-0 left-0 w-full h-full border-0"
+                ></iframe>
+              )}
             </div>
           </motion.div>
 
-          {/* Video caption badge */}
+          {/* Video duration badge */}
           <motion.div
             className="absolute -bottom-4 left-1/2 transform -translate-x-1/2 bg-black text-[#00B9D6] font-bold text-sm px-4 py-2 rounded-full border border-[#00B9D6]/40 shadow-lg shadow-[#00B9D6]/10"
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.4, delay: 0.8 }}
           >
-            3:42 minute watch
+            <span className="flex items-center">
+              <PlayCircle size={14} className="mr-1.5" />
+            </span>
           </motion.div>
         </div>
 
         {/* Call to action */}
-        <div ref={ctaRef} className="mt-12 sm:mt-16 text-center">
-          <button
-            className="inline-flex items-center bg-[#00B9D6] text-black px-6 sm:px-8 py-3 sm:py-4 rounded-md 
-            font-semibold text-base sm:text-lg hover:bg-[#00B9D6]/90 transition-all 
-            group relative overflow-hidden shadow-lg shadow-[#00B9D6]/20"
-          >
-            <PlayCircle size={20} className="mr-2" />
-            <span className="relative z-10">Schedule Demo Call</span>
-            <ChevronRight
-              className="ml-2 relative z-10 group-hover:translate-x-1 transition-transform"
-              size={18}
-            />
-            <div className="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300"></div>
-          </button>
+        <div ref={ctaRef} className="mt-16 sm:mt-20 text-center">
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6">
+            {/* Primary CTA */}
+            <a
+              href="http://www.cal.com/contntr"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center bg-gradient-to-r from-[#00B9D6] to-[#00D6C3] text-black px-6 sm:px-8 py-3 sm:py-4 rounded-md 
+              font-semibold text-base sm:text-lg transition-all 
+              group relative overflow-hidden shadow-lg shadow-[#00B9D6]/20 hover:shadow-[#00B9D6]/30"
+            >
+              <div className="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300"></div>
+              <PlayCircle size={20} className="mr-2 relative z-10" />
+              <span className="relative z-10">Schedule Demo Call</span>
+              <ChevronRight className="ml-2 relative z-10 group-hover:translate-x-1 transition-transform" size={18} />
+            </a>
 
-          <p className="text-gray-400 text-sm mt-4">
-            See how we can tailor our approach to your business
-          </p>
+           
+          </div>
+
+          <p className="text-gray-400 text-sm mt-4">See how we can tailor our approach to your business</p>
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default VideoSection;
+export default VideoSection

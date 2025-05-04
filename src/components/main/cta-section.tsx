@@ -1,88 +1,83 @@
-"use client"
+"use client";
 
-import type React from "react"
-import { useEffect } from "react"
-import { Calendar, Mail, Phone, ArrowRight } from "lucide-react"
+import { useEffect, useState } from "react";
+import { Calendar, Check } from "lucide-react";
 
-// Extend the Window interface to include Calendly
-declare global {
-    interface Window {
-        Calendly?: {
-            initPopupWidget: (options: { url: string }) => void;
-        };
-    }
-}
 
-export default function CTASection() {
-    // Initialize Calendly
+
+const CTASection: React.FC = () => {
+    // State to track if the Cal widget is loaded
+    const [, setCalLoaded] = useState(false);
+
+    // Dynamically load Cal.com script
     useEffect(() => {
-        // Add Calendly script
-        const script = document.createElement("script")
-        script.src = "https://assets.calendly.com/assets/external/widget.js"
-        script.async = true
+        const script = document.createElement("script");
+        script.src = "https://cal.com/widget.js"; // Cal.com widget script URL
+        script.async = true;
+        document.body.appendChild(script);
+
         script.onload = () => {
-            console.log("Calendly script loaded successfully")
-        }
-        document.head.appendChild(script)
+            console.log("Cal widget script loaded!");
+            setCalLoaded(true); // Mark that Cal is loaded
+        };
 
+        // Cleanup script if necessary
         return () => {
-            // Clean up script if component unmounts
-            if (document.head.contains(script)) {
-                document.head.removeChild(script)
+            if (script.parentNode) {
+                document.body.removeChild(script);
             }
-        }
-    }, [])
+        };
+    }, []);
 
-    const handleCTAClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
-        e.preventDefault()
-
-        // If it's the calendar link, open Calendly
-        if (href === "#calendar") {
-            if (window.Calendly) {
-                window.Calendly.initPopupWidget({
-                    url: "https://calendly.com/contntr/call",
-                })
-            }
-        } else {
-            // Otherwise, scroll to the section
-            const targetId = href.substring(1)
-            const targetElement = document.getElementById(targetId)
-
-            if (targetElement) {
-                window.scrollTo({
-                    top: targetElement.offsetTop - 100,
-                    behavior: "smooth",
-                })
-            }
-        }
-    }
-
-    const handleCalendlyClick = (e: React.MouseEvent<HTMLButtonElement>) => {
-        e.preventDefault()
-        if (window.Calendly) {
-            window.Calendly.initPopupWidget({
-                url: "https://calendly.com/contntr/call",
-            })
-        }
-    }
+    const handleCalendarOpen = () => {
+        // Redirect to the link directly
+        window.location.href = "https://cal.com/contntr/call";
+    };
 
     return (
-        <section className="py-24 bg-gradient-to-b from-[#080808] to-black">
-            <div className="container mx-auto px-6">
+        <section className="py-16 sm:py-24 bg-gradient-to-b from-[#080808] to-black">
+            <div className="container mx-auto px-4 sm:px-6">
                 <div className="max-w-4xl mx-auto bg-gradient-to-r from-[#111] to-[#0c0c0c] rounded-xl overflow-hidden border border-gray-800 shadow-xl">
-                    <div className="p-8 md:p-12">
-                        <div className="text-center mb-12">
-                            <h2 className="text-4xl font-bold text-white mb-4">Ready to Attract Premium Clients?</h2>
-                            <p className="text-xl text-gray-300 max-w-2xl mx-auto">
-                                Book a free Growth Blueprint Session to discover how our specialized SEO strategy can help your software
-                                development agency scale predictably.
+                    <div className="p-6 sm:p-8 md:p-12">
+                        <div className="text-center mb-8 sm:mb-12">
+                            <div className="inline-block px-3 py-1 rounded-full bg-[#00B9D6]/10 text-[#00B9D6] text-xs sm:text-sm font-medium mb-4">
+                                Free Growth Blueprint
+                            </div>
+
+                            <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-4">
+                                Ready to Attract{" "}
+                                <span className="text-[#00B9D6] relative">
+                                    Premium Clients
+                                    <svg
+                                        className="absolute -bottom-1 sm:-bottom-2 left-0 w-full"
+                                        viewBox="0 0 300 12"
+                                        fill="none"
+                                        xmlns="http://www.w3.org/2000/svg"
+                                    >
+                                        <path
+                                            d="M1 5.5C32.3333 2.16667 143.4 -1.3 299 9.5"
+                                            stroke="#00B9D6"
+                                            strokeWidth="2"
+                                            strokeLinecap="round"
+                                        />
+                                    </svg>
+                                </span>
+                                ?
+                            </h2>
+
+                            <p className="text-base sm:text-lg md:text-xl text-gray-300 max-w-2xl mx-auto">
+                                Book a free Growth Blueprint Session to discover how our
+                                specialized SEO strategy can help your software development
+                                agency scale predictably.
                             </p>
                         </div>
 
-                        <div className="grid md:grid-cols-2 gap-8 items-center">
+                        <div className="grid md:grid-cols-2 gap-6 sm:gap-8 items-center">
                             <div>
-                                <div className="bg-black/50 p-6 rounded-lg border border-gray-800 mb-6">
-                                    <h3 className="text-xl font-bold text-white mb-4">What You&apos;ll Get:</h3>
+                                <div className="bg-black/50 p-4 sm:p-6 rounded-lg border border-gray-800 mb-6">
+                                    <h3 className="text-lg sm:text-xl font-bold text-white mb-4">
+                                        What You&apos;ll Get:
+                                    </h3>
                                     <ul className="space-y-3">
                                         {[
                                             "Custom growth strategy tailored to your agency",
@@ -92,91 +87,45 @@ export default function CTASection() {
                                             "Clear roadmap for implementation",
                                         ].map((item, index) => (
                                             <li key={index} className="flex items-start">
-                                                <div className="text-[#00B9D6] mr-3">•</div>
-                                                <span className="text-gray-300">{item}</span>
+                                                <div className="flex-shrink-0 w-5 h-5 rounded-full bg-[#00B9D6]/15 flex items-center justify-center mr-3">
+                                                    <Check className="text-[#00B9D6] w-3 h-3" />
+                                                </div>
+                                                <span className="text-sm sm:text-base text-gray-300">
+                                                    {item}
+                                                </span>
                                             </li>
                                         ))}
                                     </ul>
                                 </div>
 
-                                <div className="flex flex-col sm:flex-row gap-4">
-                                    <a
-                                        href="#calendar"
-                                        className="flex items-center justify-center gap-2 bg-[#00B9D6] text-black px-6 py-3 rounded-lg font-medium hover:bg-[#00B9D6]/90 transition-colors"
-                                        onClick={(e) => handleCTAClick(e, "#calendar")}
+                                <div className="md:hidden bg-black/30 p-4 rounded-lg border border-gray-800 mb-6">
+                                    <button
+                                        onClick={handleCalendarOpen}
+                                        className="w-full bg-gradient-to-r from-[#00B9D6] to-[#00D6C3] text-black px-4 py-3 rounded-lg font-medium hover:shadow-lg hover:shadow-[#00B9D6]/20 transition-all flex items-center justify-center gap-2"
                                     >
                                         <Calendar className="w-5 h-5" />
-                                        <span>Book Your Free Session</span>
-                                    </a>
-                                    <a
-                                        href="#results"
-                                        className="flex items-center justify-center gap-2 border border-[#00B9D6] text-[#00B9D6] px-6 py-3 rounded-lg font-medium hover:bg-[#00B9D6]/10 transition-colors"
-                                        onClick={(e) => handleCTAClick(e, "#results")}
-                                    >
-                                        <ArrowRight className="w-5 h-5" />
-                                        <span>View Case Studies</span>
-                                    </a>
+                                        <span>Schedule Your Free Call</span>
+                                    </button>
                                 </div>
                             </div>
 
-                            <div className="bg-black/30 p-6 rounded-lg border border-gray-800">
-                                <h3 className="text-xl font-bold text-white mb-4">Contact Us Directly</h3>
-                                <form className="space-y-4">
-                                    <div>
-                                        <label className="block text-gray-400 mb-1 text-sm">Name</label>
-                                        <input
-                                            type="text"
-                                            className="w-full bg-black/50 border border-gray-700 rounded-lg px-4 py-2 text-white focus:outline-none focus:border-[#00B9D6]"
-                                            placeholder="Your name"
-                                        />
-                                    </div>
-                                    <div>
-                                        <label className="block text-gray-400 mb-1 text-sm">Email</label>
-                                        <input
-                                            type="email"
-                                            className="w-full bg-black/50 border border-gray-700 rounded-lg px-4 py-2 text-white focus:outline-none focus:border-[#00B9D6]"
-                                            placeholder="your@email.com"
-                                        />
-                                    </div>
-                                    <div>
-                                        <label className="block text-gray-400 mb-1 text-sm">Message</label>
-                                        <textarea
-                                            className="w-full bg-black/50 border border-gray-700 rounded-lg px-4 py-2 text-white focus:outline-none focus:border-[#00B9D6] h-24"
-                                            placeholder="Tell us about your agency..."
-                                        ></textarea>
-                                    </div>
-                                    <button
-                                        type="submit"
-                                        className="w-full bg-[#00B9D6] text-black px-4 py-3 rounded-lg font-medium hover:bg-[#00B9D6]/90 transition-colors"
-                                    >
-                                        Send Message
-                                    </button>
-
-                                    {/* Calendly button to form section */}
-                                    <button
-                                        type="button"
-                                        onClick={handleCalendlyClick}
-                                        className="w-full bg-black text-[#00B9D6] border border-[#00B9D6] px-4 py-3 rounded-lg font-medium hover:bg-[#00B9D6]/10 transition-colors mt-2 flex items-center justify-center gap-2"
-                                    >
-                                        <Calendar className="w-5 h-5" />
-                                        <span>Schedule a Call</span>
-                                    </button>
-                                </form>
-
-                                <div className="mt-6 pt-6 border-t border-gray-800">
-                                    <div className="space-y-3">
-                                        <div className="flex items-center">
-                                            <Mail className="text-[#00B9D6] w-5 h-5 mr-3" />
-                                            <a href="mailto:info@example.com" className="text-gray-300 hover:text-white">
-                                                info@example.com
-                                            </a>
-                                        </div>
-                                        <div className="flex items-center">
-                                            <Phone className="text-[#00B9D6] w-5 h-5 mr-3" />
-                                            <a href="tel:+1234567890" className="text-gray-300 hover:text-white">
-                                                (123) 456-7890
-                                            </a>
-                                        </div>
+                            <div className="hidden md:block bg-black/30 p-6 rounded-lg border border-gray-800">
+                                <div className="space-y-6">
+                                    <div className="bg-black/20 p-6 rounded-lg border border-gray-800">
+                                        <h4 className="text-lg font-semibold text-white mb-3">
+                                            Ready to grow your business?
+                                        </h4>
+                                        <p className="text-gray-300 mb-4">
+                                            Click the button below to schedule a call with our team
+                                            and discover how we can help you attract premium clients.
+                                        </p>
+                                        <button
+                                            onClick={handleCalendarOpen}
+                                            className="w-full bg-gradient-to-r from-[#00B9D6] to-[#00D6C3] text-black px-4 py-3 rounded-lg font-medium hover:shadow-lg hover:shadow-[#00B9D6]/20 transition-all flex items-center justify-center gap-2"
+                                        >
+                                            <Calendar className="w-5 h-5" />
+                                            <span>Schedule Your Free Call</span>
+                                        </button>
                                     </div>
                                 </div>
                             </div>
@@ -184,15 +133,8 @@ export default function CTASection() {
                     </div>
                 </div>
             </div>
-
-            {/* Initialize Calendly object */}
-            <script
-                dangerouslySetInnerHTML={{
-                    __html: `
-                    window.Calendly = window.Calendly || {};
-                    `,
-                }}
-            />
         </section>
-    )
-}
+    );
+};
+
+export default CTASection;

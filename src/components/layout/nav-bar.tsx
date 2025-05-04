@@ -1,12 +1,10 @@
-"use client"
+"use client";
 
-import type React from "react"
-
-import { useState, useEffect } from "react"
-import { Menu, X, ChevronDown, ChevronRight } from "lucide-react"
-import { motion, AnimatePresence } from "framer-motion"
-import Link from "next/link"
-import Image from "next/image"
+import { useState, useEffect } from "react";
+import { Menu, X, ChevronDown, ChevronRight } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
+import Link from "next/link";
+import Image from "next/image";
 
 const navLinks = [
   {
@@ -23,55 +21,46 @@ const navLinks = [
   { name: "Results", href: "#results" },
   { name: "Pricing", href: "#pricing" },
   { name: "About", href: "#about" },
-]
+];
 
 export default function Navbar() {
-  const [isScrolled, setIsScrolled] = useState(false)
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
-  const [activeSubmenu, setActiveSubmenu] = useState<string | null>(null)
+  const [isScrolled, setIsScrolled] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [activeSubmenu, setActiveSubmenu] = useState<string | null>(null);
 
   useEffect(() => {
     const handleScroll = () => {
       if (window.scrollY > 10) {
-        setIsScrolled(true)
+        setIsScrolled(true);
       } else {
-        setIsScrolled(false)
+        setIsScrolled(false);
       }
-    }
+    };
 
-    window.addEventListener("scroll", handleScroll)
-    return () => window.removeEventListener("scroll", handleScroll)
-  }, [])
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   const toggleSubmenu = (name: string) => {
-    if (activeSubmenu === name) {
-      setActiveSubmenu(null)
-    } else {
-      setActiveSubmenu(name)
-    }
-  }
+    setActiveSubmenu(activeSubmenu === name ? null : name);
+  };
 
-  const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
-    // Only handle internal links
+  const handleNavClick = (
+    e: React.MouseEvent<HTMLAnchorElement>,
+    href: string
+  ) => {
     if (href.startsWith("#")) {
-      e.preventDefault()
-      const targetId = href.substring(1)
-      const targetElement = document.getElementById(targetId)
-
+      e.preventDefault();
+      const targetId = href.substring(1);
+      const targetElement = document.getElementById(targetId);
       if (targetElement) {
-        // Close mobile menu if open
-        if (mobileMenuOpen) {
-          setMobileMenuOpen(false)
-        }
-
-        // Scroll to the element with smooth behavior
         window.scrollTo({
-          top: targetElement.offsetTop - 100, // Offset for the fixed header
+          top: targetElement.offsetTop - 100,
           behavior: "smooth",
-        })
+        });
       }
     }
-  }
+  };
 
   return (
     <>
@@ -79,18 +68,18 @@ export default function Navbar() {
         className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${isScrolled ? "bg-black/90 backdrop-blur-md py-3 shadow-lg" : "bg-transparent py-5"
           }`}
       >
-        <div className="container mx-auto px-6">
+        <div className="container mx-auto px-6 pb-11">
           <div className="flex items-center justify-between">
             {/* Logo */}
             <div className="flex items-center">
               <div className="relative h-10 w-10 mr-3">
                 <div className="absolute inset-1 bg-black rounded-md flex items-center justify-center">
                   <Image
-                    src="/logo.png" 
+                    src="/logo.png"
                     alt="ContentGrowth Logo"
                     className="w-6 h-6 object-contain"
-                    height={24} 
-                    width={24}  
+                    height={24}
+                    width={24}
                   />
                 </div>
               </div>
@@ -98,7 +87,6 @@ export default function Navbar() {
                 Contntr<span className="text-[#00B9D6]">Growth</span>
               </div>
             </div>
-            
 
             {/* Desktop Navigation */}
             <nav className="hidden md:flex items-center space-x-1">
@@ -109,10 +97,10 @@ export default function Navbar() {
                     className="px-4 py-2 text-gray-300 hover:text-white transition-colors flex items-center"
                     onClick={(e) => {
                       if (link.submenu) {
-                        e.preventDefault()
-                        toggleSubmenu(link.name)
+                        e.preventDefault();
+                        toggleSubmenu(link.name);
                       } else {
-                        handleNavClick(e, link.href)
+                        handleNavClick(e, link.href);
                       }
                     }}
                   >
@@ -146,9 +134,8 @@ export default function Navbar() {
             {/* CTA Button */}
             <div className="hidden md:block">
               <a
-                href="#calendar"
+                href="https://cal.com/contntr/"
                 className="bg-[#00B9D6] hover:bg-[#00B9D6]/90 text-black font-medium px-5 py-2 rounded-md transition-all duration-200 flex items-center group"
-                onClick={(e) => handleNavClick(e, "#calendar")}
               >
                 Get Started
                 <ChevronRight className="ml-1 group-hover:translate-x-1 transition-transform" />
@@ -183,20 +170,21 @@ export default function Navbar() {
                   <div key={link.name}>
                     <Link
                       href={link.href}
-                      className=" px-4 py-3 text-lg text-gray-300 hover:text-white border-b border-gray-800 flex items-center justify-between"
+                      className="px-4 py-3 text-lg text-gray-300 hover:text-white border-b border-gray-800 flex items-center justify-between"
                       onClick={(e) => {
                         if (link.submenu) {
-                          e.preventDefault()
-                          toggleSubmenu(link.name)
+                          e.preventDefault();
+                          toggleSubmenu(link.name);
                         } else {
-                          handleNavClick(e, link.href)
+                          handleNavClick(e, link.href);
                         }
                       }}
                     >
                       {link.name}
                       {link.submenu && (
                         <ChevronDown
-                          className={`w-5 h-5 transition-transform duration-200 ${activeSubmenu === link.name ? "rotate-180" : ""}`}
+                          className={`w-5 h-5 transition-transform duration-200 ${activeSubmenu === link.name ? "rotate-180" : ""
+                            }`}
                         />
                       )}
                     </Link>
@@ -216,8 +204,8 @@ export default function Navbar() {
                             href={sublink.href}
                             className="block px-4 py-3 text-gray-400 hover:text-[#00B9D6] border-b border-gray-800/50"
                             onClick={(e) => {
-                              handleNavClick(e, sublink.href)
-                              setMobileMenuOpen(false)
+                              handleNavClick(e, sublink.href);
+                              setMobileMenuOpen(false);
                             }}
                           >
                             {sublink.name}
@@ -232,8 +220,8 @@ export default function Navbar() {
                   href="#calendar"
                   className="mt-4 bg-[#00B9D6] hover:bg-[#00B9D6]/90 text-black font-medium px-5 py-3 rounded-md transition-all duration-200 flex items-center justify-center"
                   onClick={(e) => {
-                    handleNavClick(e, "#calendar")
-                    setMobileMenuOpen(false)
+                    handleNavClick(e, "#calendar");
+                    setMobileMenuOpen(false);
                   }}
                 >
                   Get Started
@@ -245,6 +233,5 @@ export default function Navbar() {
         )}
       </AnimatePresence>
     </>
-  )
+  );
 }
-

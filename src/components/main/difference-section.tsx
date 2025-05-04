@@ -1,5 +1,13 @@
 "use client"
 
+declare global {
+    interface Window {
+        Calendly?: {
+            initPopupWidget: (options: { url: string }) => void;
+        };
+    }
+}
+
 import { useEffect } from "react"
 import { CheckCircle, Code, Users, Zap, X } from "lucide-react"
 import { motion } from "framer-motion"
