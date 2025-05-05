@@ -10,8 +10,6 @@ import { motion } from "framer-motion"
 const SEOVisualization = () => {
   return (
     <div className="relative w-full h-full flex items-center justify-center">
-    
-
       {/* Content container */}
       <div className="relative z-10 w-full max-w-[320px] sm:max-w-md">
         <motion.div
@@ -22,7 +20,7 @@ const SEOVisualization = () => {
         >
           <div className="p-6 sm:p-8">
             {/* Dashboard header */}
-            <div className="flex items-center justify-between mb-6">
+            <div className="flex items-center mb-6">
               <div className="flex items-center">
                 <div className="w-10 h-10 bg-[#00B9D6]/15 rounded-full flex items-center justify-center mr-3">
                   <LineChart className="text-[#00B9D6] w-5 h-5" />
@@ -32,7 +30,6 @@ const SEOVisualization = () => {
                   <p className="text-xs text-gray-400">Real-time metrics</p>
                 </div>
               </div>
-              <div className="bg-[#00B9D6]/10 text-[#00B9D6] text-xs font-medium px-2 py-1 rounded-md">LIVE</div>
             </div>
 
             {/* Growth metrics */}
@@ -206,7 +203,7 @@ const HeroSection = () => {
       />
 
       {/* Content Container */}
-      <div className="relative z-10 container mx-auto px-4 sm:px-6 py-16 sm:py-24 md:py-32">
+      <div className="relative z-10 container mx-auto px-4 sm:px-6 py-24 sm:py-28 md:py-32 mt-8 sm:mt-12">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
           {/* Left Side - Text Content */}
           <div className="space-y-6 max-w-xl mx-auto lg:mx-0 text-center lg:text-left">

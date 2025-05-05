@@ -17,11 +17,11 @@ export default function Home() {
     <main className="bg-black text-white">
       <Navbar />
       <HeroSection />
-      <TrustSection />
       <FrameworkSection />
-
-      <ProcessSection />
       <VideoSection/>
+
+      <TrustSection />
+      <ProcessSection />
       <ContentBacklinksSection />
       <TechnicalSEOSection />
       <PricingSection />
