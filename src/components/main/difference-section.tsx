@@ -29,13 +29,6 @@ export default function DifferenceSection() {
     }, [])
 
     // Function to open Calendly
-    const openCalendly = () => {
-        if (window.Calendly) {
-            window.Calendly.initPopupWidget({
-                url: "https://calendly.com/contntr/call",
-            })
-        }
-    }
 
     return (
         <section id="about" className="py-16 md:py-24 bg-gradient-to-b from-[#080808] to-[#0c0c0c] overflow-hidden">
