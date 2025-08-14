@@ -2,7 +2,6 @@
 // import { createClient } from '@sanity/client'
 
 // // ✅ Types for Sanity data
-
 // export interface HeroData {
 //   badge: string
 //   headline: {
@@ -44,40 +43,87 @@
 //     metaDescription?: string
 //   }
 // }
+// export interface PricingTier {
+//   name: string
+//   price: string
+//   description?: string
+//   recommended: boolean
+//   features: {
+//     name: string
+//     included: boolean
+//     note?: string
+//   }[]
+//   primaryButton: {
+//     text: string
+//     href: string
+//   }
+// }
 
 // export interface PricingSectionData {
 //   sectionTitle: string
 //   sectionSubtitle: string
-//   badgeText: string
-//   tiers: {
-//     name: string
-//     price: string
-//     description: string
-//     recommended: boolean
-//     features: {
-//       name: string
-//       included: boolean
-//       note?: string
-//     }[]
-//     primaryButton?: {
-//       text: string
-//       href: string
-//     }
-//     secondaryButton?: {
-//       text: string
-//       href: string
-//     }
-//     buttonText?: string
-//     buttonClass?: string
-//   }[]
-//   guarantee: {
+//   badgeText?: string
+//   tiers: PricingTier[]  
+//   guarantee?: {
 //     title: string
 //     description: string
 //   }
 // }
 
-// // ✅ Sanity client configuration
+// // Add to existing interfaces
+// export interface FrameworkStep {
+//   icon: string;
+//   title: string;
+// }
 
+// export interface FrameworkPillar {
+//   icon: string;
+//   title: string;
+//   description: string;
+//   keyBenefits: string[];
+// }
+
+// export interface FrameworkSectionData {
+//   sectionHeader: {
+//     badgeText: string;
+//     title: string;
+//     highlightedText: string;
+//     subtitle: string;
+//   };
+//   frameworkSteps: FrameworkStep[];
+//   corePillars: FrameworkPillar[];
+// }
+
+// // Add new query
+// export const FRAMEWORK_SECTION_QUERY = `*[_type == "frameworkSection"][0] {
+//   sectionHeader {
+//     badgeText,
+//     title,
+//     highlightedText,
+//     subtitle
+//   },
+//   frameworkSteps[] {
+//     icon,
+//     title
+//   },
+//   corePillars[] {
+//     icon,
+//     title,
+//     description,
+//     keyBenefits
+//   }
+// }`;
+
+// export async function getFrameworkSectionData(): Promise<FrameworkSectionData | null> {
+//   try {
+//     return await sanityClient.fetch(FRAMEWORK_SECTION_QUERY);
+//   } catch (error) {
+//     console.error('Error fetching framework section data:', error);
+//     return null;
+//   }
+// }
+
+// // ✅ Sanity client configuration
 // export const sanityClient = createClient({
 //   projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID!,
 //   dataset: process.env.NEXT_PUBLIC_SANITY_DATASET || 'production',
@@ -87,7 +133,6 @@
 // })
 
 // // ✅ HERO SECTION
-
 // export const HERO_SECTION_QUERY = `*[_type == "heroSection"][0]{
 //   badge,
 //   headline,
@@ -114,32 +159,38 @@
 //     .subscribe({
 //       next: (update) => {
 //         if (update.result) {
-//           callback(update.result)
+//           callback(update.result as unknown as HeroData)
 //         }
 //       },
 //       error: (err) => {
 //         console.error('Subscription error:', err)
 //       }
 //     })
-
 //   return () => subscription.unsubscribe()
 // }
 
 // // ✅ PRICING SECTION
-
-// export const PRICING_SECTION_QUERY = `*[_type == "pricingSection"][0]`
+// export const PRICING_QUERY = `*[_type == "pricingSection"][0]{
+//   sectionTitle,
+//   sectionSubtitle,
+//   badgeText,
+//   tiers,
+//   guarantee
+// }`
 
 // export async function getPricingData(): Promise<PricingSectionData | null> {
 //   try {
-//     const data = await sanityClient.fetch(PRICING_SECTION_QUERY)
-//     return data
+//     return await sanityClient.fetch(PRICING_QUERY)
 //   } catch (error) {
-//     console.error('Error fetching pricing data from Sanity:', error)
+//     console.error('Error fetching pricing data:', error)
 //     return null
 //   }
 // }
 
-//src/sanity/lib/sanity.ts
+
+
+
+// src/sanity/lib/sanity.ts
 import { createClient } from '@sanity/client'
 
 // ✅ Types for Sanity data
@@ -185,35 +236,55 @@ export interface HeroData {
   }
 }
 
+export interface PricingTier {
+  name: string
+  price: string
+  description?: string
+  recommended: boolean
+  features: {
+    name: string
+    included: boolean
+    note?: string
+  }[]
+  primaryButton: {
+    text: string
+    href: string
+  }
+}
+
 export interface PricingSectionData {
   sectionTitle: string
   sectionSubtitle: string
-  badgeText: string
-  tiers: {
-    name: string
-    price: string
-    description: string
-    recommended: boolean
-    features: {
-      name: string
-      included: boolean
-      note?: string
-    }[]
-    primaryButton?: {
-      text: string
-      href: string
-    }
-    secondaryButton?: {
-      text: string
-      href: string
-    }
-    buttonText?: string
-    buttonClass?: string
-  }[]
-  guarantee: {
+  badgeText?: string
+  tiers: PricingTier[]
+  guarantee?: {
     title: string
     description: string
   }
+}
+
+// Add to existing interfaces
+export interface FrameworkStep {
+  icon: string;
+  title: string;
+}
+
+export interface Feature {
+  icon: string;
+  title: string;
+  description: string;
+  points: string[];
+}
+
+export interface FrameworkSectionData {
+  header: {
+    badge: string;
+    mainHeading: string;
+    highlightedText: string;
+    subheading: string;
+  };
+  steps: FrameworkStep[];
+  features: Feature[];
 }
 
 // ✅ Sanity client configuration
@@ -222,8 +293,6 @@ export const sanityClient = createClient({
   dataset: process.env.NEXT_PUBLIC_SANITY_DATASET || 'production',
   useCdn: process.env.NODE_ENV === 'production',
   apiVersion: '2023-05-03',
-  // The token should only be used on the server-side for security.
-  // It will be undefined on the client, which is fine if you're only fetching public data.
   token: process.env.SANITY_API_TOKEN,
 })
 
@@ -254,7 +323,7 @@ export function subscribeToHeroData(callback: (data: HeroData) => void): () => v
     .subscribe({
       next: (update) => {
         if (update.result) {
-          callback(update.result)
+          callback(update.result as unknown as HeroData)
         }
       },
       error: (err) => {
@@ -265,43 +334,48 @@ export function subscribeToHeroData(callback: (data: HeroData) => void): () => v
 }
 
 // ✅ PRICING SECTION
-export const PRICING_SECTION_QUERY = `*[_type == "pricingSection"][0]{
-  badgeText,
+export const PRICING_QUERY = `*[_type == "pricingSection"][0]{
   sectionTitle,
   sectionSubtitle,
-  tiers[]{
-    name,
-    price,
-    description,
-    recommended,
-    features[]{
-      name,
-      included,
-      note
-    },
-    primaryButton{
-      text,
-      href
-    },
-    secondaryButton{
-      text,
-      href
-    },
-    buttonText,
-    buttonClass
-  },
-  guarantee{
-    title,
-    description
-  }
+  badgeText,
+  tiers,
+  guarantee
 }`
 
 export async function getPricingData(): Promise<PricingSectionData | null> {
   try {
-    const data = await sanityClient.fetch(PRICING_SECTION_QUERY)
-    return data
+    return await sanityClient.fetch(PRICING_QUERY)
   } catch (error) {
-    console.error('Error fetching pricing data from Sanity:', error)
+    console.error('Error fetching pricing data:', error)
+    return null
+  }
+}
+
+// ✅ FRAMEWORK SECTION 
+export const FRAMEWORK_SECTION_QUERY = `*[_type == "frameworkSection"][0] {
+  header {
+    badge,
+    mainHeading,
+    highlightedText,
+    subheading
+  },
+  steps[] {
+    icon,
+    title
+  },
+  features[] {
+    icon,
+    title,
+    description,
+    points
+  }
+}`
+
+export async function getFrameworkSectionData(): Promise<FrameworkSectionData | null> {
+  try {
+    return await sanityClient.fetch(FRAMEWORK_SECTION_QUERY)
+  } catch (error) {
+    console.error('Error fetching framework section data:', error)
     return null
   }
 }

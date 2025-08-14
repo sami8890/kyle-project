@@ -1,6 +1,18 @@
+
 // next.config.js
 module.exports = {
   images: {
-    domains: ['img.youtube.com'], 
+    domains: [
+      'cdn.sanity.io',
+      'img.youtube.com'
+    ],
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'cdn.sanity.io',
+        port: '',
+        pathname: '/images/**',
+      },
+    ],
   },
 }

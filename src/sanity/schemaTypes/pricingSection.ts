@@ -1,4 +1,194 @@
-//src/sanity/schemaTypes/pricingSection.ts
+// // src/sanity/schemaTypes/pricingSection.ts
+// export default {
+//   name: 'pricingSection',
+//   title: 'Pricing Section',
+//   type: 'document',
+//   fields: [
+//     {
+//       name: 'sectionTitle',
+//       title: 'Main Heading',
+//       type: 'string',
+//       description: 'Big title shown at the top of the pricing section',
+//       initialValue: 'Pricing & ROI',
+//     },
+//     {
+//       name: 'sectionSubtitle',
+//       title: 'Subtitle',
+//       type: 'text',
+//       description: 'Short description shown under the main heading',
+//       initialValue: 'Affordable premium SEO for software development agencies',
+//     },
+//     {
+//       name: 'badgeText',
+//       title: 'Top Badge Text',
+//       type: 'string',
+//       description: 'Small text shown above the title',
+//       initialValue: 'Investment & Returns',
+//     },
+//     {
+//       name: 'tiers',
+//       title: 'Pricing Plans',
+//       type: 'array',
+//       description: 'Add your pricing plans here',
+//       of: [
+//         {
+//           type: 'object',
+//           preview: {
+//             select: {
+//               title: 'name',
+//               subtitle: 'price',
+//               recommended: 'recommended'
+//             },
+//             prepare({ title, subtitle, recommended }: { title: string; subtitle: string; recommended?: boolean }) {
+//               return {
+//                 title: `${title} ${recommended ? '(⭐ Recommended)' : ''}`,
+//                 subtitle: `Price: ${subtitle}`
+//               }
+//             }
+//           },
+//           fields: [
+//             { 
+//               name: 'name', 
+//               title: 'Plan Name', 
+//               type: 'string',
+//               description: 'e.g., Starter, Pro, Enterprise',
+//               validation: (Rule: { required: () => any; }) => Rule.required()
+//             },
+//             { 
+//               name: 'price', 
+//               title: 'Price', 
+//               type: 'string',
+//               description: 'e.g., $99/month or $1000/year',
+//               validation: (Rule: { required: () => any; }) => Rule.required()
+//             },
+//             { 
+//               name: 'description', 
+//               title: 'Description', 
+//               type: 'text',
+//               description: 'Short description about the plan'
+//             },
+//             {
+//               name: 'recommended',
+//               title: 'Mark as Recommended?',
+//               type: 'boolean',
+//               description: 'Should this plan stand out visually?',
+//               initialValue: false
+//             },
+//             {
+//               name: 'features',
+//               title: 'Features',
+//               type: 'array',
+//               of: [
+//                 {
+//                   type: 'object',
+//                   fields: [
+//                     {
+//                       name: 'name', 
+//                       title: 'Feature', 
+//                       type: 'string',
+//                       validation: (Rule: { required: () => any; }) => Rule.required()
+//                     },
+//                     {
+//                       name: 'included', 
+//                       title: 'Included?', 
+//                       type: 'boolean',
+//                       initialValue: true
+//                     },
+//                     {
+//                       name: 'note', 
+//                       title: 'Note', 
+//                       type: 'string',
+//                       description: 'Optional extra details'
+//                     }
+//                   ],
+//                   preview: {
+//                     select: {
+//                       title: 'name',
+//                       included: 'included'
+//                     },
+//                     prepare({ title, included }: { title: string; included: boolean }) {
+//                       return {
+//                         title,
+//                         subtitle: included ? '✅ Included' : '❌ Not included'
+//                       }
+//                     }
+//                   }
+//                 }
+//               ]
+//             },
+//             {
+//               name: 'primaryButton',
+//               title: 'Primary Button',
+//               type: 'object',
+//               fields: [
+//                 {
+//                   name: 'text', 
+//                   title: 'Button Text', 
+//                   type: 'string',
+//                   validation: (Rule: { required: () => any; }) => Rule.required(),
+//                   initialValue: 'Get Started'
+//                 },
+//                 {
+//                   name: 'href', 
+//                   title: 'Button Link', 
+//                   type: 'string',
+//                   validation: (Rule: { required: () => any; }) => Rule.required(),
+//                   initialValue: '#contact'
+//                 }
+//               ]
+//             }
+//           ]
+//         }
+//       ],
+//       initialValue: [
+//         {
+//           name: "Starter",
+//           price: "$999/mo",
+//           description: "Perfect for new agencies",
+//           features: [
+//             { name: "Keyword research", included: true },
+//             { name: "On-page optimization", included: true },
+//             { name: "Monthly reporting", included: true }
+//           ],
+//           primaryButton: { text: "Start Now", href: "#contact" }
+//         }
+//       ]
+//     },
+//     {
+//       name: 'guarantee',
+//       title: 'Guarantee',
+//       type: 'object',
+//       fields: [
+//         {
+//           name: 'title', 
+//           title: 'Title', 
+//           type: 'string',
+//           initialValue: '30% Growth Guarantee'
+//         },
+//         {
+//           name: 'description', 
+//           title: 'Description', 
+//           type: 'text',
+//           initialValue: "If we don't increase your traffic by 30% in 6 months, we'll work for free until we do."
+//         }
+//       ]
+//     }
+//   ],
+//   preview: {
+//     select: {
+//       title: 'sectionTitle',
+//       subtitle: 'sectionSubtitle'
+//     },
+//     prepare({ title, subtitle }: { title?: string; subtitle?: string }) {
+//       return {
+//         title: title || 'Pricing Section',
+//         subtitle: subtitle || 'No subtitle'
+//       }
+//     }
+//   }
+// }
+
+
 export default {
   name: 'pricingSection',
   title: 'Pricing Section',
@@ -13,16 +203,16 @@ export default {
     },
     {
       name: 'sectionSubtitle',
-      title: 'Subtitle (under heading)',
+      title: 'Subtitle',
       type: 'text',
       description: 'Short description shown under the main heading',
       initialValue: 'Affordable premium SEO for software development agencies',
     },
     {
       name: 'badgeText',
-      title: 'Small Badge Text',
+      title: 'Top Badge Text',
       type: 'string',
-      description: 'Small text shown above the title, like a label',
+      description: 'Small text shown above the title',
       initialValue: 'Investment & Returns',
     },
     {
@@ -33,87 +223,190 @@ export default {
       of: [
         {
           type: 'object',
-          title: 'Plan',
+          preview: {
+            select: {
+              title: 'name',
+              subtitle: 'price',
+              recommended: 'recommended'
+            },
+            prepare(selection: any) {
+              const { title, subtitle, recommended } = selection
+              return {
+                title: `${title} ${recommended ? '(Recommended)' : ''}`,
+                subtitle: `Price: ${subtitle}`
+              }
+            }
+          },
           fields: [
-            { name: 'name', title: 'Plan Name', type: 'string', description: 'Like Basic, Pro, Premium' },
-            { name: 'price', title: 'Price', type: 'string', description: 'Example: $99/month' },
-            { name: 'description', title: 'Plan Description', type: 'text', description: 'Short description about the plan' },
+            { 
+              name: 'name', 
+              title: 'Plan Name', 
+              type: 'string',
+              description: 'e.g., Starter, Pro, Enterprise',
+              validation: (Rule: any) => Rule.required()
+            },
+            { 
+              name: 'price', 
+              title: 'Price', 
+              type: 'string',
+              description: 'e.g., $99/month or $1000/year',
+              validation: (Rule: any) => Rule.required()
+            },
+            { 
+              name: 'description', 
+              title: 'Description', 
+              type: 'text',
+              description: 'Short description about the plan'
+            },
             {
               name: 'recommended',
-              title: 'Highlight This Plan?',
+              title: 'Mark as Recommended?',
               type: 'boolean',
-              description: 'Enable if this is the best or recommended plan',
+              description: 'Should this plan stand out visually?',
               initialValue: false
             },
             {
               name: 'features',
-              title: 'What’s Included?',
+              title: 'Features',
               type: 'array',
               of: [
                 {
                   type: 'object',
-                  title: 'Feature',
                   fields: [
-                    { name: 'name', title: 'Feature Name', type: 'string', description: 'e.g. 24/7 Support' },
-                    { name: 'included', title: 'Is this included?', type: 'boolean', initialValue: false },
-                    { name: 'note', title: 'Extra Notes (Optional)', type: 'string' }
-                  ]
+                    {
+                      name: 'name', 
+                      title: 'Feature', 
+                      type: 'string',
+                      validation: (Rule: any) => Rule.required()
+                    },
+                    {
+                      name: 'included', 
+                      title: 'Included?', 
+                      type: 'boolean',
+                      initialValue: true
+                    },
+                    {
+                      name: 'note', 
+                      title: 'Note', 
+                      type: 'string',
+                      description: 'Optional extra details'
+                    }
+                  ],
+                  preview: {
+                    select: {
+                      title: 'name',
+                      included: 'included'
+                    },
+                    prepare(selection: any) {
+                      const { title, included } = selection
+                      return {
+                        title,
+                        subtitle: included ? 'Included' : 'Not included'
+                      }
+                    }
+                  }
                 }
               ]
             },
             {
               name: 'primaryButton',
-              title: 'Main Button (e.g. Buy Now)',
+              title: 'Primary Button',
               type: 'object',
               fields: [
-                { name: 'text', title: 'Button Text', type: 'string', description: 'e.g. Buy Now' },
-                { name: 'href', title: 'Button Link', type: 'string', description: 'e.g. /checkout' }
+                {
+                  name: 'text', 
+                  title: 'Button Text', 
+                  type: 'string',
+                  initialValue: 'Get Started'
+                },
+                {
+                  name: 'href', 
+                  title: 'Button Link', 
+                  type: 'string',
+                  initialValue: '#contact'
+                }
               ]
             },
             {
               name: 'secondaryButton',
-              title: 'Secondary Button (Optional)',
+              title: 'Secondary Button',
               type: 'object',
               fields: [
-                { name: 'text', title: 'Button Text', type: 'string' },
-                { name: 'href', title: 'Button Link', type: 'string' }
+                {
+                  name: 'text', 
+                  title: 'Button Text', 
+                  type: 'string',
+                  initialValue: 'Learn More'
+                },
+                {
+                  name: 'href', 
+                  title: 'Button Link', 
+                  type: 'string',
+                  initialValue: '#learn-more'
+                }
               ]
             },
             {
               name: 'buttonText',
-              title: 'Static Button (Non-highlighted plans)',
+              title: 'Button Text (fallback)',
               type: 'string',
-              description: 'This button will be shown if plan is not recommended',
+              description: 'Used if no buttons are defined',
+              initialValue: 'Learn More'
             },
             {
               name: 'buttonClass',
-              title: 'Button Style (for developers)',
+              title: 'Button CSS Classes',
               type: 'string',
-              description: 'Optional: Custom style class name (can leave empty)',
-            },
+              description: 'Additional Tailwind classes for custom styling'
+            }
           ]
+        }
+      ],
+      initialValue: [
+        {
+          name: "Starter",
+          price: "$999/mo",
+          description: "Perfect for new agencies",
+          features: [
+            { name: "Keyword research", included: true },
+            { name: "On-page optimization", included: true },
+            { name: "Monthly reporting", included: true }
+          ],
+          secondaryButton: { text: "Learn More", href: "#starter" }
         }
       ]
     },
     {
       name: 'guarantee',
-      title: 'Guarantee Box',
+      title: 'Guarantee',
       type: 'object',
       fields: [
         {
-          name: 'title',
-          title: 'Guarantee Title',
+          name: 'title', 
+          title: 'Title', 
           type: 'string',
-          description: 'e.g. 30% Growth Guarantee',
-          initialValue: '30% Growth Guarantee',
+          initialValue: '30% Growth Guarantee'
         },
         {
-          name: 'description',
-          title: 'Guarantee Description',
+          name: 'description', 
+          title: 'Description', 
           type: 'text',
-          description: 'Explain the guarantee or offer here',
-        },
+          initialValue: "If we don't increase your traffic by 30% in 6 months, we'll work for free until we do."
+        }
       ]
     }
-  ]
+  ],
+  preview: {
+    select: {
+      title: 'sectionTitle',
+      subtitle: 'sectionSubtitle'
+    },
+    prepare(selection: any) {
+      const { title, subtitle } = selection
+      return {
+        title: title || 'Pricing Section',
+        subtitle: subtitle || 'No subtitle'
+      }
+    }
+  }
 }
