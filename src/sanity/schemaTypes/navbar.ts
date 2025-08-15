@@ -1,4 +1,6 @@
-export default {
+import { Rule as ValidationRule } from '@sanity/types'
+
+const navbar = {
   name: 'navbar',
   title: 'Navbar',
   type: 'document',
@@ -9,7 +11,7 @@ export default {
       type: 'string',
       description: 'The text part of your logo',
       initialValue: 'ContntrGrowth',
-      validation: (Rule: any) => Rule.required()
+      validation: (Rule: ValidationRule) => Rule.required()
     },
     {
       name: 'logoHighlight',
@@ -17,7 +19,7 @@ export default {
       type: 'string',
       description: 'The colored part of your logo',
       initialValue: 'Growth',
-      validation: (Rule: any) => Rule.required()
+      validation: (Rule: ValidationRule) => Rule.required()
     },
     {
       name: 'logoImage',
@@ -50,14 +52,14 @@ export default {
               name: 'label',
               title: 'Label',
               type: 'string',
-              validation: (Rule: any) => Rule.required()
+              validation: (Rule: ValidationRule) => Rule.required()
             },
             {
               name: 'href',
               title: 'Link',
               type: 'string',
               description: 'Can be #anchor or full URL',
-              validation: (Rule: any) => Rule.required()
+              validation: (Rule: ValidationRule) => Rule.required()
             },
             {
               name: 'submenu',
@@ -67,8 +69,8 @@ export default {
                 {
                   type: 'object',
                   fields: [
-                    { name: 'label', title: 'Label', type: 'string', validation: (Rule: any) => Rule.required() },
-                    { name: 'href', title: 'Link', type: 'string', validation: (Rule: any) => Rule.required() }
+                    { name: 'label', title: 'Label', type: 'string', validation: (Rule: ValidationRule) => Rule.required() },
+                    { name: 'href', title: 'Link', type: 'string', validation: (Rule: ValidationRule) => Rule.required() }
                   ]
                 }
               ]
@@ -95,14 +97,14 @@ export default {
           title: 'Button Text', 
           type: 'string',
           initialValue: 'Get Started',
-          validation: (Rule: any) => Rule.required()
+          validation: (Rule: ValidationRule) => Rule.required()
         },
         { 
           name: 'href', 
           title: 'Button Link', 
           type: 'string',
           initialValue: 'https://cal.com/contntr/',
-          validation: (Rule: any) => Rule.required()
+          validation: (Rule: ValidationRule) => Rule.required()
         }
       ]
     }
@@ -112,11 +114,13 @@ export default {
       title: 'logoText',
       subtitle: 'logoHighlight'
     },
-    prepare({ title, subtitle }: any) {
+    prepare({ title, subtitle }: { title?: string; subtitle?: string }) {
       return {
-        title: `${title}${subtitle ? ` (${subtitle})` : ''}`,
+        title: `${title ?? ''}${subtitle ? ` (${subtitle})` : ''}`,
         subtitle: 'Navigation Bar Configuration'
       }
     }
   }
 }
+
+export default navbar

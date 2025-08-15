@@ -2,35 +2,77 @@
 
 import { useEffect, useState } from "react";
 import { Calendar, Check } from "lucide-react";
+import { getCTASectionData, CTASectionData } from "@/sanity/lib/sanity";
 
 const CTASection: React.FC = () => {
+  const [data, setData] = useState<CTASectionData | null>(null);
+  const [loading, setLoading] = useState(true);
+  
   // State to track if the Cal widget is loaded
   const [, setCalLoaded] = useState(false);
 
+  // Fetch data from Sanity
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const ctaData = await getCTASectionData();
+        setData(ctaData);
+      } catch (error) {
+        console.error("Error fetching CTA data:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    
+    fetchData();
+  }, []);
+
   // Dynamically load Cal.com script
   useEffect(() => {
+    if (!data) return;
+    
     const script = document.createElement("script");
-    script.src = "https://cal.com/widget.js"; // Cal.com widget script URL
+    script.src = "https://cal.com/widget.js";
     script.async = true;
     document.body.appendChild(script);
 
     script.onload = () => {
       console.log("Cal widget script loaded!");
-      setCalLoaded(true); // Mark that Cal is loaded
+      setCalLoaded(true);
     };
 
-    // Cleanup script if necessary
     return () => {
       if (script.parentNode) {
         document.body.removeChild(script);
       }
     };
-  }, []);
+  }, [data]);
 
   const handleCalendarOpen = () => {
-    // Redirect to the link directly
-    window.location.href = "https://cal.com/contntr/call";
+    if (data?.calendarLink) {
+      window.location.href = data.calendarLink;
+    }
   };
+
+  if (loading) {
+    return (
+      <section className="py-16 sm:py-24 bg-gradient-to-b from-[#080808] to-black">
+        <div className="container mx-auto px-4 sm:px-6 text-center text-gray-500">
+          Loading CTA section...
+        </div>
+      </section>
+    );
+  }
+
+  if (!data) {
+    return (
+      <section className="py-16 sm:py-24 bg-gradient-to-b from-[#080808] to-black">
+        <div className="container mx-auto px-4 sm:px-6 text-center text-red-500">
+          Failed to load CTA data
+        </div>
+      </section>
+    );
+  }
 
   return (
     <section className="py-16 sm:py-24 bg-gradient-to-b from-[#080808] to-black">
@@ -39,34 +81,33 @@ const CTASection: React.FC = () => {
           <div className="p-6 sm:p-8 md:p-12">
             <div className="text-center mb-8 sm:mb-12">
               <div className="inline-block px-3 py-1 rounded-full bg-[#00B9D6]/10 text-[#00B9D6] text-xs sm:text-sm font-medium mb-4">
-                Free Growth Blueprint
+                {data.badge}
               </div>
 
               <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-4">
-                Ready to Attract{" "}
-                <span className="text-[#00B9D6] relative">
-                  Premium Clients
-                  <svg
-                    className="absolute -bottom-1 sm:-bottom-2 left-0 w-full"
-                    viewBox="0 0 300 12"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      d="M1 5.5C32.3333 2.16667 143.4 -1.3 299 9.5"
-                      stroke="#00B9D6"
-                      strokeWidth="2"
-                      strokeLinecap="round"
-                    />
-                  </svg>
-                </span>
-                ?
+                {data.heading.replace(data.highlightedText, "")}
+                {data.highlightedText && (
+                  <span className="text-[#00B9D6] relative">
+                    {data.highlightedText}
+                    <svg
+                      className="absolute -bottom-1 sm:-bottom-2 left-0 w-full"
+                      viewBox="0 0 300 12"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M1 5.5C32.3333 2.16667 143.4 -1.3 299 9.5"
+                        stroke="#00B9D6"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                      />
+                    </svg>
+                  </span>
+                )}
               </h2>
 
               <p className="text-base sm:text-lg md:text-xl text-gray-300 max-w-2xl mx-auto">
-                Book a free Growth Blueprint Session to discover how our
-                specialized SEO strategy can help your software development
-                agency scale predictably.
+                {data.description}
               </p>
             </div>
 
@@ -74,16 +115,10 @@ const CTASection: React.FC = () => {
               <div>
                 <div className="bg-black/50 p-4 sm:p-6 rounded-lg border border-gray-800 mb-6">
                   <h3 className="text-lg sm:text-xl font-bold text-white mb-4">
-                    What You&apos;ll Get:
+                    {data.benefitsTitle}
                   </h3>
                   <ul className="space-y-3">
-                    {[
-                      "Custom growth strategy tailored to your agency",
-                      "Competitor analysis and opportunity assessment",
-                      "Technical SEO audit of your current website",
-                      "Content gap analysis and keyword recommendations",
-                      "Clear roadmap for implementation",
-                    ].map((item, index) => (
+                    {data.benefits.map((item, index) => (
                       <li key={index} className="flex items-start">
                         <div className="flex-shrink-0 w-5 h-5 rounded-full bg-[#00B9D6]/15 flex items-center justify-center mr-3">
                           <Check className="text-[#00B9D6] w-3 h-3" />
@@ -102,7 +137,7 @@ const CTASection: React.FC = () => {
                     className="w-full bg-gradient-to-r from-[#00B9D6] to-[#00D6C3] text-black px-4 py-3 rounded-lg font-medium hover:shadow-lg hover:shadow-[#00B9D6]/20 transition-all flex items-center justify-center gap-2"
                   >
                     <Calendar className="w-5 h-5" />
-                    <span>Schedule Your Free Call</span>
+                    <span>{data.buttonText}</span>
                   </button>
                 </div>
               </div>
@@ -111,18 +146,17 @@ const CTASection: React.FC = () => {
                 <div className="space-y-6">
                   <div className="bg-black/20 p-6 rounded-lg border border-gray-800">
                     <h4 className="text-lg font-semibold text-white mb-3">
-                      Ready to grow your business?
+                      {data.popupTitle}
                     </h4>
                     <p className="text-gray-300 mb-4">
-                      Click the button below to schedule a call with our team
-                      and discover how we can help you attract premium clients.
+                      {data.popupDescription}
                     </p>
                     <button
                       onClick={handleCalendarOpen}
                       className="w-full bg-gradient-to-r from-[#00B9D6] to-[#00D6C3] text-black px-4 py-3 rounded-lg font-medium hover:shadow-lg hover:shadow-[#00B9D6]/20 transition-all flex items-center justify-center gap-2"
                     >
                       <Calendar className="w-5 h-5" />
-                      <span>Schedule Your Free Call</span>
+                      <span>{data.buttonText}</span>
                     </button>
                   </div>
                 </div>
