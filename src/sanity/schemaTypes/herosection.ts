@@ -1,6 +1,24 @@
-// src/sanity/schemaTypes/herosection.ts
+import type { Rule } from 'sanity';
 
-export default {
+// Define helper types
+type ValidationRule = Rule;
+type PrepareParams = { title?: string; subtitle?: string };
+
+
+
+
+interface HeroSection {
+  name: string;
+  title: string;
+  type: string;
+  fields: unknown[]; // Using 'unknown' instead of 'any' to avoid eslint error
+  preview?: {
+    select: { title: string; subtitle: string };
+    prepare: (selection: PrepareParams) => { title: string; subtitle: string };
+  };
+}
+
+const heroSection: HeroSection = {
   name: 'heroSection',
   title: 'Hero Section',
   type: 'document',
@@ -10,8 +28,8 @@ export default {
       title: 'Badge Text',
       type: 'string',
       description: 'Enter a short phrase that appears above the main headline (e.g., "Premium SEO")',
-      validation: (Rule: any) => Rule.required(),
-      initialValue: 'Premium SEO for Software Agencies',  // Default value
+      validation: (rule: ValidationRule) => rule.required(),
+      initialValue: 'Premium SEO for Software Agencies',
     },
     {
       name: 'headline',
@@ -24,18 +42,18 @@ export default {
           title: 'First Part of the Headline',
           type: 'string',
           description: 'First part of the headline, without any highlights',
-          validation: (Rule: any) => Rule.required(),
-          initialValue: 'Attract Premium Clients.',  // Default value
+          validation: (rule: ValidationRule) => rule.required(),
+          initialValue: 'Attract Premium Clients.',
         },
         {
           name: 'highlighted',
           title: 'Highlighted Text',
           type: 'string',
           description: 'Text that should be highlighted in blue (e.g., "Scale Predictably")',
-          validation: (Rule: any) => Rule.required(),
-          initialValue: 'Scale Predictably',  // Default value
-        }
-      ]
+          validation: (rule: ValidationRule) => rule.required(),
+          initialValue: 'Scale Predictably',
+        },
+      ],
     },
     {
       name: 'subheadline',
@@ -47,8 +65,8 @@ export default {
           title: 'Main Text',
           type: 'text',
           description: 'Enter the full subheadline text here',
-          validation: (Rule: any) => Rule.required(),
-          initialValue: 'Growing a software development agency isn\'t just about getting more leads—it\'s about becoming the obvious choice for high-value clients.',
+          validation: (rule: ValidationRule) => rule.required(),
+          initialValue: "Growing a software development agency isn't just about getting more leads—it's about becoming the obvious choice for high-value clients.",
         },
         {
           name: 'highlighted1',
@@ -63,8 +81,8 @@ export default {
           type: 'string',
           description: 'Second phrase to highlight in blue (must exist in main text)',
           initialValue: 'obvious choice',
-        }
-      ]
+        },
+      ],
     },
     {
       name: 'features',
@@ -79,7 +97,7 @@ export default {
               name: 'text',
               title: 'Feature Text',
               type: 'string',
-              validation: (Rule: any) => Rule.required(),
+              validation: (rule: ValidationRule) => rule.required(),
             },
             {
               name: 'icon',
@@ -92,32 +110,32 @@ export default {
                   { title: 'Target', value: 'target' },
                   { title: 'Line Chart', value: 'lineChart' },
                   { title: 'Arrow Up Right', value: 'arrowUpRight' },
-                  { title: 'Chevron Right', value: 'chevronRight' }
-                ]
+                  { title: 'Chevron Right', value: 'chevronRight' },
+                ],
               },
-              validation: (Rule: any) => Rule.required(),
-            }
+              validation: (rule: ValidationRule) => rule.required(),
+            },
           ],
           preview: {
             select: {
               title: 'text',
-              subtitle: 'icon'
+              subtitle: 'icon',
             },
-            prepare({ title, subtitle }: any) {
+            prepare({ title, subtitle }: PrepareParams) {
               return {
                 title,
                 subtitle: `Icon: ${subtitle}`,
-              }
-            }
-          }
-        }
+              };
+            },
+          },
+        },
       ],
-      validation: (Rule: any) => Rule.min(1).max(5),
+      validation: (rule: ValidationRule) => rule.min(1).max(5),
       initialValue: [
         { text: 'Technical SEO & Site Optimization', icon: 'zap' },
         { text: 'Research-Backed, High-Authority Content', icon: 'star' },
-        { text: 'Industry Positioning & Lead Generation', icon: 'target' }
-      ]
+        { text: 'Industry Positioning & Lead Generation', icon: 'target' },
+      ],
     },
     {
       name: 'ctaButtons',
@@ -133,7 +151,7 @@ export default {
               name: 'text',
               title: 'Button Text',
               type: 'string',
-              validation: (Rule: any) => Rule.required(),
+              validation: (rule: ValidationRule) => rule.required(),
               initialValue: 'Get Your Free Growth Blueprint',
             },
             {
@@ -141,10 +159,10 @@ export default {
               title: 'Link/Anchor (e.g., #calendar)',
               type: 'string',
               description: 'Use # for anchor links or full URLs',
-              validation: (Rule: any) => Rule.required(),
+              validation: (rule: ValidationRule) => rule.required(),
               initialValue: '#calendar',
-            }
-          ]
+            },
+          ],
         },
         {
           name: 'secondary',
@@ -155,7 +173,7 @@ export default {
               name: 'text',
               title: 'Button Text',
               type: 'string',
-              validation: (Rule: any) => Rule.required(),
+              validation: (rule: ValidationRule) => rule.required(),
               initialValue: 'Learn Our Approach',
             },
             {
@@ -163,12 +181,12 @@ export default {
               title: 'Link/Anchor (e.g., #framework)',
               type: 'string',
               description: 'Use # for anchor links or full URLs',
-              validation: (Rule: any) => Rule.required(),
+              validation: (rule: ValidationRule) => rule.required(),
               initialValue: '#framework',
-            }
-          ]
-        }
-      ]
+            },
+          ],
+        },
+      ],
     },
     {
       name: 'dashboard',
@@ -180,7 +198,7 @@ export default {
           name: 'title',
           title: 'Dashboard Title',
           type: 'string',
-          validation: (Rule: any) => Rule.required(),
+          validation: (rule: ValidationRule) => rule.required(),
           initialValue: 'SEO Dashboard',
         },
         {
@@ -201,31 +219,31 @@ export default {
                   name: 'label',
                   title: 'Metric Label',
                   type: 'string',
-                  validation: (Rule: any) => Rule.required(),
+                  validation: (rule: ValidationRule) => rule.required(),
                 },
                 {
                   name: 'value',
                   title: 'Metric Value',
                   type: 'string',
                   description: 'e.g., 3.4x, 97%, $50K',
-                  validation: (Rule: any) => Rule.required(),
+                  validation: (rule: ValidationRule) => rule.required(),
                 },
                 {
                   name: 'change',
                   title: 'Percentage Change',
                   type: 'string',
                   description: 'e.g., +34%, -5%',
-                  validation: (Rule: any) => Rule.required(),
+                  validation: (rule: ValidationRule) => rule.required(),
                 },
                 {
                   name: 'description',
                   title: 'Description',
                   type: 'string',
-                }
-              ]
-            }
+                },
+              ],
+            },
           ],
-          validation: (Rule: any) => Rule.min(1).max(4),
+          validation: (rule: ValidationRule) => rule.min(1).max(4),
           initialValue: [
             {
               label: 'Organic Traffic',
@@ -238,8 +256,8 @@ export default {
               value: '97%',
               change: '+12%',
               description: 'industry leading',
-            }
-          ]
+            },
+          ],
         },
         {
           name: 'floatingBadge',
@@ -247,8 +265,8 @@ export default {
           type: 'string',
           description: 'Text for the floating badge on the dashboard',
           initialValue: '30% Growth Guarantee',
-        }
-      ]
+        },
+      ],
     },
     {
       name: 'seo',
@@ -260,30 +278,32 @@ export default {
           name: 'metaTitle',
           title: 'Meta Title',
           type: 'string',
-          validation: (Rule: any) => Rule.max(60),
+          validation: (rule: ValidationRule) => rule.max(60),
           initialValue: 'Hero Section Meta Title',
         },
         {
           name: 'metaDescription',
           title: 'Meta Description',
           type: 'text',
-          validation: (Rule: any) => Rule.max(160),
+          validation: (rule: ValidationRule) => rule.max(160),
           initialValue: 'Description for SEO purposes.',
-        }
-      ]
-    }
+        },
+      ],
+    },
   ],
   preview: {
     select: {
       title: 'headline.part1',
       subtitle: 'badge',
     },
-    prepare(selection: any) {
+    prepare(selection: PrepareParams) {
       const { title, subtitle } = selection;
       return {
         title: title || 'Hero Section',
         subtitle: subtitle || 'No badge set',
       };
-    }
-  }
-}
+    },
+  },
+};
+
+export default heroSection;

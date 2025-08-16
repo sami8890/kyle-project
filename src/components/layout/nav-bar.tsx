@@ -3,7 +3,6 @@
 import { useState, useEffect } from "react";
 import { Menu, X, ChevronDown, ChevronRight } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
-import Link from "next/link";
 import Image from "next/image";
 import { client } from "@/sanity/lib/client";
 
@@ -332,7 +331,8 @@ export default function Navbar() {
 }
 
 // Helper function to generate image URLs
-function urlFor(source: any) {
+function urlFor(source?: { asset: { _ref: string } }): string {
+  if (!source) return "";
   return `https://cdn.sanity.io/images/${process.env.NEXT_PUBLIC_SANITY_PROJECT_ID}/production/${source.asset._ref
     .replace("image-", "")
     .replace("-jpg", ".jpg")

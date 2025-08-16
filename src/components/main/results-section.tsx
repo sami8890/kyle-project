@@ -3,32 +3,8 @@
 import { TrendingUp, Users, DollarSign, Award, BarChart, Search } from "lucide-react"
 import Image from "next/image"
 import { useState, useEffect } from "react"
-import { getResultsSectionData } from "@/sanity/lib/sanity"
+import { getResultsSectionData, ResultsSectionData, CaseStudy, CaseStudyMetric } from "@/sanity/lib/sanity"
 import imageUrlBuilder from "@sanity/image-url"
-
-// Define the type for a metric inside a case study
-type Metric = {
-  icon: keyof typeof iconMap
-  value: string
-  label: string
-}
-
-// Define the type for each case study
-type CaseStudy = {
-  title: string
-  category: string
-  description: string
-  image: any // If you have Sanity's Image type, replace with that
-  metrics: Metric[]
-}
-
-// Define the main data structure
-type ResultsSectionData = {
-  badge: string
-  highlightedText: string
-  subheading: string
-  caseStudies: CaseStudy[]
-}
 
 const iconMap = {
   TrendingUp,
@@ -72,8 +48,28 @@ export default function ResultsSection() {
   if (!data) {
     return (
       <section id="results" className="py-16 sm:py-24 bg-black">
-        <div className="container mx-auto px-4 sm:px-6 text-center text-red-500">
-          Failed to load results data
+        <div className="container mx-auto px-4 sm:px-6">
+          <div className="text-center mb-12 sm:mb-16">
+            <div className="inline-block px-4 py-2 bg-[#00B9D6]/10 border border-[#00B9D6]/30 rounded-full text-[#00B9D6] text-sm font-medium mb-6 tracking-wide">
+              Results
+            </div>
+            <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6 leading-tight max-w-5xl mx-auto">
+              <span className="block">
+                Results That{" "}
+                <span className="text-[#00B9D6] font-bold whitespace-nowrap">
+                  Speak
+                </span>{" "}
+                For
+              </span>
+              <span className="block">Themselves</span>
+            </h2>
+            <p className="text-gray-400 text-lg sm:text-xl max-w-3xl mx-auto leading-relaxed">
+              See how we&apos;ve helped software agencies achieve remarkable growth through strategic SEO.
+            </p>
+          </div>
+          <div className="bg-gradient-to-b from-[#111] to-[#0c0c0c] rounded-xl overflow-hidden border border-gray-800 shadow-xl max-w-5xl mx-auto p-8 text-center">
+            <p className="text-gray-400">Results data will be displayed here once configured in Sanity CMS.</p>
+          </div>
         </div>
       </section>
     )
@@ -140,8 +136,8 @@ export default function ResultsSection() {
               </h3>
 
               <div className="grid grid-cols-3 gap-4 mb-6">
-                {data.caseStudies[activeCase].metrics.map((metric: Metric, i: number) => {
-                  const IconComponent = iconMap[metric.icon] || Search
+                {data.caseStudies[activeCase].metrics.map((metric: CaseStudyMetric, i: number) => {
+                  const IconComponent = iconMap[metric.icon as keyof typeof iconMap] || Search
                   return (
                     <div key={i} className="text-center">
                       <div className="w-10 h-10 sm:w-12 sm:h-12 bg-[#00B9D6]/10 rounded-full flex items-center justify-center mx-auto mb-3">

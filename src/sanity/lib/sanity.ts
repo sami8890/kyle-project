@@ -70,10 +70,14 @@ export interface PricingTier {
   name: string
   price: string
   description?: string
-  recommended: boolean
+  recommended?: boolean
   features: PricingFeature[]
-  primaryButton: PricingButton
+  primaryButton?: PricingButton
+  secondaryButton?: PricingButton
+  buttonText?: string
+  buttonClass?: string
 }
+
 
 export interface PricingGuarantee {
   title: string
