@@ -216,26 +216,13 @@ export default function FrameworkSection() {
 
         <motion.div
           className="relative max-w-4xl mx-auto mb-12 md:mb-16 py-8"
-          initial={{ opacity: 0 }}
-          animate={isInView ? { opacity: 1 } : { opacity: 0 }}
-          transition={{ duration: 0.8, delay: 0.2 }}
         >
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8 px-4">
             {steps.map((step, index) => (
               <motion.div
                 key={index}
                 className="flex flex-col items-center bg-[#00B9D6]/5 rounded-xl p-6 hover:bg-[#00B9D6]/10 transition-all duration-300"
-                initial={{ opacity: 0, y: 30 }}
-                animate={
-                  isInView
-                    ? {
-                        opacity: 1,
-                        y: 0,
-                        transition: { delay: 0.3 + index * 0.1, duration: 0.5 },
-                      }
-                    : { opacity: 0, y: 30 }
-                }
-                whileHover={{ y: -5 }}
+                
               >
                 <div className="w-16 h-16 bg-[#00B9D6]/10 rounded-full flex items-center justify-center mb-4 hover:bg-[#00B9D6]/20 transition-all duration-300">
                   <step.icon className="text-[#00B9D6] w-8 h-8" />
