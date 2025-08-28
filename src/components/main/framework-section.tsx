@@ -18,10 +18,8 @@ interface Step {
 
 const FrameworkPillar = ({ pillar, index, isInView }: { pillar: Pillar; index: number; isInView: boolean }) => {
   const variants = {
-    hidden: { opacity: 0, y: 50 },
     visible: (i: number) => ({
-      opacity: 1,
-      y: 0,
+     
       transition: {
         delay: 0.1 * i,
         duration: 0.6,
@@ -61,15 +59,7 @@ const FrameworkPillar = ({ pillar, index, isInView }: { pillar: Pillar; index: n
               key={i}
               className="flex items-start"
               initial={{ opacity: 0, x: -10 }}
-              animate={
-                isInView
-                  ? {
-                    opacity: 1,
-                    x: 0,
-                    transition: { delay: 0.3 + 0.1 * i + 0.2 * index, duration: 0.4 },
-                  }
-                  : { opacity: 0, x: -10 }
-              }
+              
             >
               <CheckCircle className="text-[#00B9D6] w-4 h-4 md:w-5 md:h-5 mr-2 md:mr-3 mt-0.5 flex-shrink-0" />
               <span className="text-gray-300 text-sm md:text-base">{point}</span>
