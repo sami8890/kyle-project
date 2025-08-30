@@ -63,9 +63,7 @@ export default function PricingSection() {
     return (
       <section className="py-24 bg-black text-white">
         <div className="max-w-6xl mx-auto px-6">
-          <div className="text-center py-16">
-            <p className="text-gray-400 text-lg">No pricing data available</p>
-          </div>
+          
         </div>
       </section>
     )
