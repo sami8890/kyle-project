@@ -10,7 +10,7 @@ import PricingSection from "../components/main/pricing-section"
 import DifferenceSection from "../components/main/difference-section"
 import ResultsSection from "../components/main/results-section"
 import CTASection from "../components/main/cta-section"
-import VideoSection from "@/components/main/video-section"
+// import VideoSection from "@/components/main/video-section"
 
 export default function Home() {
   return (
@@ -21,7 +21,7 @@ export default function Home() {
       <FrameworkSection />
 
       <ProcessSection />
-      <VideoSection/>
+      {/* <VideoSection/> */}
       <ContentBacklinksSection />
       <TechnicalSEOSection />
       <PricingSection />
